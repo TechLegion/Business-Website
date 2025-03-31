@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Legion - Web Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+</head>
+
+<body>
+    <section class="hero">
+        <video autoplay loop muted playsinline id="bg-video">
+            <source src="images/5.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- 🔹 Navbar -->
+        <nav class="navbar">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li style="background-color: black;"><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+    </section>
+
+    <section class="container">
+        <h2 class="section-title" data-aos="fade-down">Services</h2>
+        <div class="services-grid">
+            <div class="service-card" data-aos="flip-left">
+                <div class="icon"><i class="fas fa-laptop-code"></i></div>
+                <h3>Web Development</h3>
+                <p>Custom applications tailored to your business.</p>
+            </div>
+            <div class="service-card" data-aos="flip-right" data-aos-delay="200">
+                <div class="icon"><i class="fas fa-code"></i></div>
+                <h3>API Development</h3>
+                <p>Secure and scalable APIs for seamless integrations.</p>
+            </div>
+            <div class="service-card" data-aos="flip-left" data-aos-delay="400">
+                <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                <h3>Consulting</h3>
+                <p>Guidance on best practices and architecture.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise-section">
+        <h2 class="glow-text">Expertise</h2>
+        <div class="tech-container">
+            <div class="tech-card">Python</div>
+            <div class="tech-card">JavaScript</div>
+            <div class="tech-card">Django & Flask</div>
+            <div class="tech-card">Node.js</div>
+            <div class="tech-card">MongoDB & SQL</div>
+            <div class="tech-card">AWS & Cloud</div>
+        </div>
+
+        <h2 class="glow-text">What I Offer</h2>
+        <div class="offer-container">
+            <div class="offer-card">🚀 Full-Stack Development</div>
+            <div class="offer-card">🔌 API & Backend Systems</div>
+            <div class="offer-card">🛠️ Web App Maintenance</div>
+            <div class="offer-card">📈 Performance Optimization</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About Me</h3>
+                <p>I'm a passionate full-stack developer specializing in Python, JavaScript, and modern web technologies.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <p>Email: <a href="mailto:yourmail@example.com">techlegion01@gmail.com.com</a></p>
+                <p>Phone: +234 70-1968-3215</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Tech Legion. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
+</body>
+
+</html>
