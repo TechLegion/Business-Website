@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TekLegion Business Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .business-card {
+            width: 3.5in;
+            height: 2in;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #242070 100%);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .company-name {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .name {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            color: #a1a1aa;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e4e4e7;
+            font-size: 11px;
+        }
+
+        .contact-item i {
+            width: 12px;
+            color: #6366f1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .tagline {
+            color: #a1a1aa;
+            font-size: 10px;
+            font-style: italic;
+        }
+
+        .website {
+            color: #6366f1;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .website:hover {
+            color: #818cf8;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .business-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* Alternative design - Front and Back */
+        .card-back {
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            color: white;
+        }
+
+        .card-back .card-content {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .card-back .company-name {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-back .tagline {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 10px;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        /* Layout for both sides */
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card-side {
+            position: relative;
+        }
+
+        .side-label {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="card-container">
+        <!-- Front Side -->
+        <div class="card-side">
+            <div class="side-label">Front</div>
+            <div class="business-card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div class="logo-section">
+                            <div class="logo">TL</div>
+                            <div class="company-name">TekLegion</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="name">Your Name</div>
+                        <div class="title">Founder & Lead Developer</div>
+                        
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>techlegion01@gmail.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+234 70-1968-3215</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Lagos, Nigeria</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="tagline">Modern IT Solutions</div>
+                        <a href="#" class="website">www.teklegion.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Side -->
+        <div class="card-side">
+            <div class="side-label">Back</div>
+            <div class="business-card card-back">
+                <div class="card-content">
+                    <div class="company-name">TekLegion</div>
+                    <div class="tagline">Transforming Businesses Through Technology Innovation</div>
+                    
+                    <div class="services">
+                        <div class="service-item">Custom Software</div>
+                        <div class="service-item">AI & ML</div>
+                        <div class="service-item">Cloud Solutions</div>
+                        <div class="service-item">Data Science</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alternative Minimalist Design -->
+    <div style="margin-top: 40px;">
+        <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Alternative Minimalist Design</h3>
+        <div class="card-container">
+            <div class="card-side">
+                <div class="side-label">Minimalist Front</div>
+                <div class="business-card" style="background: white; color: #333; border: 2px solid #6366f1;">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="logo-section">
+                                <div class="logo" style="background: #6366f1;">TL</div>
+                                <div class="company-name" style="color: #333; font-size: 20px;">TekLegion</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="name" style="color: #333; font-size: 18px;">Your Name</div>
+                            <div class="title" style="color: #666; font-size: 14px;">Founder & Lead Developer</div>
+                            
+                            <div class="contact-info">
+                                <div class="contact-item" style="color: #333;">
+                                    <i class="fas fa-envelope" style="color: #6366f1;"></i>
+                                    <span>techlegion01@gmail.com</span>
+                                </div>
+                                <div class="contact-item" style="color: #333;">
+                                    <i class="fas fa-phone" style="color: #6366f1;"></i>
+                                    <span>+234 70-1968-3215</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="tagline" style="color: #666;">Modern IT Solutions</div>
+                            <a href="#" class="website">www.teklegion.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add your actual logo image if you have one
+        function addLogoImage() {
+            const logoElements = document.querySelectorAll('.logo');
+            logoElements.forEach(logo => {
+                // Replace with your actual logo
+                // logo.innerHTML = '<img src="images/TekLegion logo.png" alt="TekLegion" style="width: 100%; height: 100%; object-fit: contain;">';
+            });
+        }
+        
+        // Uncomment the line below if you want to use your actual logo
+        // addLogoImage();
+    </script>
+</body>
+</html>

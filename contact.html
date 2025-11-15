@@ -1,40 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Tech Legion</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Contact - TekLegion | Modern IT Solutions & Digital Innovation</title>
+    <meta name="description" content="Partner with TekLegion for modern IT solutions, digital innovation, and technology services. Growing IT firm ready to help transform your business.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Contact Page Specific Styles */
+        .contact-page {
+            min-height: 100vh;
+            background: var(--dark-bg);
+            padding-top: 80px;
+        }
+        
+        .contact-hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-surface) 100%);
+        }
+        
+        .contact-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .contact-hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-main {
+            padding: 80px 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+        
+        .contact-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .contact-card {
+            background: var(--gradient-card);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-normal);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .contact-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .contact-details p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all var(--transition-normal);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .response-time {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .response-time h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .response-time p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .back-to-home {
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .back-to-home a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all var(--transition-normal);
+        }
+        
+        .back-to-home a:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+        .contact-card {
+            padding: 30px 20px;
+        }
+        
+        .contact-hero {
+            padding: 80px 0 60px;
+        }
+    }
+    
+    /* Modern Form Styles */
+    .modern-form {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .modern-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .form-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 15px 25px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .form-logo:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(99, 102, 241, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .form-logo .logo-image {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
+    }
+    
+    .form-logo .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+    }
+    
+    .form-header h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .form-header p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .input-container, .select-container, .textarea-container {
+        position: relative;
+        margin-bottom: 25px;
+    }
+    
+    .input-container input,
+    .textarea-container textarea {
+        width: 100%;
+        padding: 20px 20px 20px 50px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: var(--font-primary);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+    }
+    
+    .input-container input:focus,
+    .textarea-container textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 
+            0 0 0 4px rgba(99, 102, 241, 0.1),
+            0 8px 25px rgba(99, 102, 241, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .input-container label,
+    .textarea-container label {
+        position: absolute;
+        top: 20px;
+        left: 50px;
+        color: var(--text-secondary);
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .input-container input:focus + label,
+    .input-container input:valid + label,
+    .textarea-container textarea:focus + label,
+    .textarea-container textarea:valid + label {
+        top: -12px;
+        left: 20px;
+        font-size: 0.85rem;
+        color: var(--primary-color);
+        background: var(--dark-surface);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    
+    .input-border {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gradient-primary);
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 1px;
+    }
+    
+    .input-container input:focus ~ .input-border,
+    .textarea-container textarea:focus ~ .input-border {
+        width: 100%;
+    }
+    
+    .select-container {
+        position: relative;
+    }
+    
+    .select-container select {
+        width: 100%;
+        padding: 20px 50px 20px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: var(--font-primary);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        appearance: none;
+        cursor: pointer;
+    }
+    
+    .select-container select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 
+            0 0 0 4px rgba(99, 102, 241, 0.1),
+            0 8px 25px rgba(99, 102, 241, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .select-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
+    
+    .select-container:focus-within .select-icon {
+        color: var(--primary-color);
+        transform: translateY(-50%) rotate(180deg);
+    }
+    
+    .submit-btn {
+        position: relative;
+        width: 100%;
+        padding: 18px 40px;
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: 16px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: var(--font-primary);
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 15px 35px rgba(99, 102, 241, 0.4),
+            0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .submit-btn:active {
+        transform: translateY(-1px);
+    }
+    
+    .btn-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .submit-btn:hover .btn-shine {
+        left: 100%;
+    }
+    
+    .btn-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .submit-btn:hover .btn-icon {
+        transform: translateX(5px);
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+        
+        .modern-form {
+            padding: 30px 20px;
+        }
+    }
+    </style>
 </head>
 
-<body class="contact-body">
-    <header>
-        <h1>Contact Me</h1>
-        <p>Let’s build something amazing together!</p>
-    </header>
-    <section class="contact-container fade-in">
-
-        <div class="contact-form" style="color: white;">
-            <h2>Get in Touch</h2>
-            <form>
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
+<body class="contact-page">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images/TekLegion logo.png" alt="TekLegion Logo" class="logo-image">
+                <span class="logo-text">TekLegion</span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#skills" class="nav-link">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#portfolio" class="nav-link">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link active">Contact</a>
+                </li>
+            </ul>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
+    </nav>
 
-        <div class="map-container">
-            <img class="contact-image" src="images/dev.jpg" alt=" error">
-
+    <!-- Contact Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">Let's Build Something Great</h1>
+            <p data-aos="fade-up" data-aos-delay="200">
+                Ready to modernize your operations? Partner with TekLegion for innovative IT solutions that help your business grow and thrive.
+            </p>
         </div>
     </section>
 
-    <button class="chatbot-button" onclick="openChatbot()">💬 Chat</button>
+    <!-- Contact Main Section -->
+    <section class="contact-main">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info-section" data-aos="fade-right">
+                    <div class="contact-card">
+                        <h3>Get In Touch</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>techlegion01@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>+234 70-1968-3215</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Global Presence</h4>
+                                <p>Headquarters: Lagos, Nigeria | Global Operations</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Response Time</h4>
+                                <p>Within 24 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" class="social-link" title="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-link" title="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="social-link" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-link" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="response-time">
+                            <h4><i class="fas fa-bolt"></i> Quick Response</h4>
+                            <p>I typically respond to all inquiries within 24 hours. For urgent projects, feel free to call directly.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3>Solutions We Provide</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                Custom Software Development
+                            </li>
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                AI & Machine Learning Solutions
+                            </li>
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                Data Science & Analytics
+                            </li>
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                Cloud Solutions
+                            </li>
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                Security & Compliance
+                            </li>
+                            <li style="padding: 10px 0; color: var(--text-secondary);">
+                                <i class="fas fa-check" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                Digital Innovation
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-    <script src="script.js"></script>
+                <!-- Contact Form -->
+                <div class="contact-form-container" data-aos="fade-left">
+                    <div class="contact-card modern-form">
+                        <div class="form-header">
+                            <div class="form-logo">
+                                <img src="images/TekLegion logo.png" alt="TekLegion Logo" class="logo-image">
+                                <span class="logo-text">TekLegion</span>
+                            </div>
+                            <h3>🚀 Let's Build Your Future</h3>
+                            <p>Share your vision and let's create something extraordinary together</p>
+                        </div>
+                        
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <div class="input-container">
+                                        <input type="text" id="name" name="name" required>
+                                        <label for="name">
+                                            <i class="fas fa-user"></i>
+                                            Your Name
+                                        </label>
+                                        <div class="input-border"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="input-container">
+                                        <input type="email" id="email" name="email" required>
+                                        <label for="email">
+                                            <i class="fas fa-envelope"></i>
+                                            Email Address
+                                        </label>
+                                        <div class="input-border"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-container">
+                                    <input type="text" id="subject" name="subject" required>
+                                    <label for="subject">
+                                        <i class="fas fa-lightbulb"></i>
+                                        Project Title
+                                    </label>
+                                    <div class="input-border"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="select-container">
+                                    <select id="budget" name="budget" required>
+                                        <option value="">Choose Project Scale</option>
+                                        <option value="small">💡 Small Project ($5K - $20K)</option>
+                                        <option value="medium">🚀 Medium Project ($20K - $100K)</option>
+                                        <option value="large">⭐ Large Project ($100K+)</option>
+                                        <option value="consultation">🎯 Strategy Consultation</option>
+                                        <option value="discuss">💬 Let's Discuss</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down select-icon"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="textarea-container">
+                                    <textarea id="message" name="message" rows="6" required placeholder="Tell us about your project goals, challenges, and what success looks like to you..."></textarea>
+                                    <label for="message">
+                                        <i class="fas fa-comment-dots"></i>
+                                        Project Details
+                                    </label>
+                                    <div class="input-border"></div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">
+                                <span class="btn-text">Send Message</span>
+                                <span class="btn-icon">
+                                    <i class="fas fa-paper-plane"></i>
+                                </span>
+                                <div class="btn-shine"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Back to Home -->
+            <div class="back-to-home" data-aos="fade-up">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="images/TekLegion logo.png" alt="TekLegion Logo" class="footer-logo-image">
+                        <span>TekLegion</span>
+                    </div>
+                    <p>Growing IT firm delivering modern solutions for businesses worldwide</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#services">Services</a></li>
+                            <li><a href="index.html#portfolio">Portfolio</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Services</h3>
+                        <ul>
+                            <li><a href="index.html#services">Enterprise Software</a></li>
+                            <li><a href="index.html#services">AI & Machine Learning</a></li>
+                            <li><a href="index.html#services">Data Science & Analytics</a></li>
+                            <li><a href="index.html#services">Cloud Solutions</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Contact</h3>
+                        <ul>
+                            <li>techlegion01@gmail.com</li>
+                            <li>+234 70-1968-3215</li>
+                            <li>Lagos, Nigeria</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 TekLegion. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js?v=20251027"></script>
+    
+    <script>
+        // Initialize AOS for contact page
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
-
 </html>

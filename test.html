@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TekLegion Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 TekLegion Backend Test Page</h1>
+    
+    <div class="test-section">
+        <h2>1. Backend Health Check</h2>
+        <button onclick="testHealth()">Test Health Endpoint</button>
+        <div id="health-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Contact Form Test</h2>
+        <button onclick="testContactForm()">Test Contact Form API</button>
+        <div id="contact-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Analytics Test</h2>
+        <button onclick="testAnalytics()">Test Analytics Tracking</button>
+        <div id="analytics-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Admin Panel Test</h2>
+        <button onclick="testAdmin()">Test Admin Access</button>
+        <div id="admin-result"></div>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${isSuccess ? 'success' : 'error'}">${message}</div>`;
+        }
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult('health-result', `✅ Health Check: ${data.status}`, true);
+            } catch (error) {
+                showResult('health-result', `❌ Health Check Failed: ${error.message}`, false);
+            }
+        }
+        
+        async function testContactForm() {
+            try {
+                const response = await fetch(`${API_BASE}/api/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        subject: 'Test Subject',
+                        message: 'This is a test message from the test page.',
+                        budget: 'discuss'
+                    })
+                });
+                const data = await response.json();
+                showResult('contact-result', `✅ Contact Form: ${data.message}`, true);
+            } catch (error) {
+                showResult('contact-result', `❌ Contact Form Failed: ${error.message}`, false);
+            }
+        }
+        
+        async function testAnalytics() {
+            try {
+                const response = await fetch(`${API_BASE}/api/analytics/track`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event: 'test_event',
+                        page: '/test',
+                        metadata: { test: true }
+                    })
+                });
+                const data = await response.json();
+                showResult('analytics-result', `✅ Analytics: ${data.message}`, true);
+            } catch (error) {
+                showResult('analytics-result', `❌ Analytics Failed: ${error.message}`, false);
+            }
+        }
+        
+        async function testAdmin() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/dashboard`, {
+                    headers: { 'Authorization': 'Bearer teklegion-admin-2025-secure-token' }
+                });
+                const data = await response.json();
+                showResult('admin-result', `✅ Admin Access: Dashboard loaded successfully`, true);
+            } catch (error) {
+                showResult('admin-result', `❌ Admin Access Failed: ${error.message}`, false);
+            }
+        }
+        
+        // Auto-run health check on page load
+        window.onload = () => {
+            testHealth();
+        };
+    </script>
+</body>
+</html>

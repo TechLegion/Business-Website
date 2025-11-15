@@ -1,0 +1,48 @@
+{
+  "name": "teklegion-backend",
+  "version": "1.0.0",
+  "description": "Backend API for TekLegion business website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "dev:frontend": "node frontend-server.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
+    "test": "jest",
+    "build": "echo 'No build step required for Node.js'"
+  },
+  "keywords": [
+    "api",
+    "backend",
+    "express",
+    "mongodb",
+    "email",
+    "contact-form"
+  ],
+  "author": "TekLegion",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "googleapis": "^164.1.0",
+    "helmet": "^7.1.0",
+    "mongod": "^2.0.0",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^7.0.10"
+  },
+  "devDependencies": {
+    "jest": "^25.0.0",
+    "node-fetch": "^2.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,49 @@
+<h2>New Contact Form Submission</h2>
+
+<div class="highlight">
+    <h4>📧 New Inquiry Received</h4>
+    <p>A new contact form submission has been received from the TekLegion website.</p>
+</div>
+
+<div class="contact-info">
+    <h3>Contact Details</h3>
+    <p><strong>Name:</strong> {{contact.name}}</p>
+    <p><strong>Email:</strong> <a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
+    <p><strong>Subject:</strong> {{contact.subject}}</p>
+    <p><strong>Project Size:</strong> {{budgetDisplay}}</p>
+    {{#if contact.company}}
+    <p><strong>Company:</strong> {{contact.company}}</p>
+    {{/if}}
+    {{#if contact.phone}}
+    <p><strong>Phone:</strong> <a href="tel:{{contact.phone}}">{{contact.phone}}</a></p>
+    {{/if}}
+    <p><strong>Submitted:</strong> {{date}}</p>
+</div>
+
+<div class="contact-info">
+    <h3>Message</h3>
+    <p style="white-space: pre-wrap;">{{contact.message}}</p>
+</div>
+
+{{#if contact.tags.length}}
+<div class="contact-info">
+    <h3>Detected Interests</h3>
+    <p>
+        {{#each contact.tags}}
+        <span style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 4px; margin-right: 8px; font-size: 12px;">{{this}}</span>
+        {{/each}}
+    </p>
+</div>
+{{/if}}
+
+<div class="highlight">
+    <h4>⚡ Quick Actions</h4>
+    <p>
+        <a href="mailto:{{contact.email}}?subject=Re: {{contact.subject}}" class="button">Reply via Email</a>
+        <a href="tel:{{contact.phone}}" class="button" style="background: #10b981;">Call Now</a>
+    </p>
+</div>
+
+<p style="margin-top: 30px; color: #666; font-size: 14px;">
+    <strong>Next Steps:</strong> Review the inquiry and respond within 24 hours to maintain our professional standards.
+</p>

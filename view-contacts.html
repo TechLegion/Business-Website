@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Contact Submissions - TekLegion</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+        }
+        .contact-card { 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 10px 0; 
+            background: #f9f9f9; 
+        }
+        .contact-card h3 { 
+            color: #6366f1; 
+            margin-top: 0; 
+        }
+        .contact-info { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 10px; 
+            margin: 15px 0; 
+        }
+        .info-item { 
+            background: white; 
+            padding: 10px; 
+            border-radius: 4px; 
+            border-left: 3px solid #6366f1; 
+        }
+        .info-label { 
+            font-weight: bold; 
+            color: #666; 
+        }
+        .message { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin: 10px 0; 
+            white-space: pre-wrap; 
+            border-left: 3px solid #06b6d4; 
+        }
+        .timestamp { 
+            color: #666; 
+            font-size: 0.9em; 
+        }
+        .loading { 
+            text-align: center; 
+            padding: 40px; 
+            color: #666; 
+        }
+        .error { 
+            background: #fee; 
+            color: #c33; 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin: 10px 0; 
+        }
+        .refresh-btn { 
+            background: #6366f1; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin: 10px 5px; 
+        }
+        .refresh-btn:hover { 
+            background: #4f46e5; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Contact Form Submissions</h1>
+            <p>View all contact form submissions from your website</p>
+            <button class="refresh-btn" onclick="loadContacts()">🔄 Refresh</button>
+        </div>
+        
+        <div id="loading" class="loading">
+            <p>Loading contact submissions...</p>
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="contacts-container"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        async function loadContacts() {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const container = document.getElementById('contacts-container');
+            
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            container.innerHTML = '';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/contacts`, {
+                    headers: {
+                        'Authorization': 'Bearer teklegion-admin-2025-secure-token'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success && data.contacts) {
+                    displayContacts(data.contacts);
+                } else {
+                    throw new Error(data.message || 'Failed to load contacts');
+                }
+                
+            } catch (err) {
+                console.error('Error loading contacts:', err);
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        function displayContacts(contacts) {
+            const container = document.getElementById('contacts-container');
+            
+            if (contacts.length === 0) {
+                container.innerHTML = '<p>No contact submissions found.</p>';
+                return;
+            }
+            
+            container.innerHTML = contacts.map(contact => `
+                <div class="contact-card">
+                    <h3>📝 ${contact.subject}</h3>
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <div class="info-label">Name:</div>
+                            <div>${contact.name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email:</div>
+                            <div><a href="mailto:${contact.email}">${contact.email}</a></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Budget:</div>
+                            <div>${getBudgetDisplay(contact.budget)}</div>
+                        </div>
+                        ${contact.company ? `
+                        <div class="info-item">
+                            <div class="info-label">Company:</div>
+                            <div>${contact.company}</div>
+                        </div>
+                        ` : ''}
+                        ${contact.phone ? `
+                        <div class="info-item">
+                            <div class="info-label">Phone:</div>
+                            <div><a href="tel:${contact.phone}">${contact.phone}</a></div>
+                        </div>
+                        ` : ''}
+                        <div class="info-item">
+                            <div class="info-label">Submitted:</div>
+                            <div class="timestamp">${new Date(contact.createdAt).toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <strong>Message:</strong><br>
+                        ${contact.message}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function getBudgetDisplay(budget) {
+            const budgetMap = {
+                'small': 'Small Project ($5K - $20K)',
+                'medium': 'Medium Project ($20K - $100K)',
+                'large': 'Large Project ($100K+)',
+                'consultation': 'Strategy Consultation',
+                'discuss': 'Let\'s Discuss'
+            };
+            return budgetMap[budget] || 'Not specified';
+        }
+        
+        // Load contacts on page load
+        window.onload = loadContacts;
+    </script>
+</body>
+</html>
