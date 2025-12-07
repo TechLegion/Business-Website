@@ -75,7 +75,7 @@ const Analytics = sequelize.define('Analytics', {
 }, {
   tableName: 'analytics',
   timestamps: true,
-  underscored: false,
+  underscored: true,
   indexes: [
     { fields: ['event', 'timestamp'] },
     { fields: ['page', 'timestamp'] },

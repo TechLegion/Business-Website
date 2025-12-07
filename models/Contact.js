@@ -92,7 +92,7 @@ const Contact = sequelize.define('Contact', {
 }, {
   tableName: 'contacts',
   timestamps: true,
-  underscored: false,
+  underscored: true,
   indexes: [
     { fields: ['email'] },
     { fields: ['status'] },

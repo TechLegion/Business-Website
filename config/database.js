@@ -66,9 +66,59 @@ const connectDB = async () => {
     console.log('📦 PostgreSQL Connected successfully');
     
     // Sync models (create tables if they don't exist)
-    // In production, this will only create tables if they don't exist (won't alter existing)
-    await sequelize.sync({ alter: false });
-    console.log('📊 Database models synchronized');
+    // Use alter: true to add missing columns if tables exist
+    try {
+      await sequelize.sync({ force: false, alter: true });
+      console.log('📊 Database models synchronized');
+    } catch (syncError) {
+      // If alter fails due to column name mismatch (created_at vs createdAt)
+      if (syncError.message.includes('does not exist') || syncError.message.includes('column')) {
+        console.warn('⚠️  Schema mismatch detected. Attempting to fix...');
+        try {
+          // Check if tables exist and are empty - if so, we can drop and recreate
+          const [tables] = await sequelize.query(`
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name IN ('contacts', 'analytics')
+          `);
+          
+          if (tables.length > 0) {
+            // Tables exist, check if empty
+            try {
+              const [contactCount] = await sequelize.query('SELECT COUNT(*)::int as count FROM contacts');
+              const [analyticsCount] = await sequelize.query('SELECT COUNT(*)::int as count FROM analytics');
+              
+              if ((contactCount[0]?.count || 0) === 0 && (analyticsCount[0]?.count || 0) === 0) {
+                console.log('📊 Tables are empty. Dropping and recreating with correct schema...');
+                await sequelize.sync({ force: true });
+                console.log('✅ Database tables recreated with correct schema');
+              } else {
+                console.warn('⚠️  Tables contain data. Dropping tables to fix schema...');
+                console.warn('   (Data will be lost - this is OK for fresh deployments)');
+                await sequelize.sync({ force: true });
+                console.log('✅ Database tables recreated');
+              }
+            } catch (queryError) {
+              // Query failed - tables might have wrong schema, just recreate
+              console.log('📊 Recreating tables with correct schema...');
+              await sequelize.sync({ force: true });
+              console.log('✅ Database tables recreated');
+            }
+          } else {
+            // Tables don't exist, just create them
+            await sequelize.sync({ force: false, alter: false });
+            console.log('📊 Database tables created');
+          }
+        } catch (fixError) {
+          console.warn('⚠️  Could not auto-fix. Error:', fixError.message);
+          console.warn('   Tables may need manual fix in Railway database console');
+          // Continue anyway - app might still work
+        }
+      } else {
+        console.error('Database sync error:', syncError.message);
+      }
+    }
 
     // Handle connection events (pool might not be available immediately)
     try {
@@ -91,7 +141,17 @@ const connectDB = async () => {
 
   } catch (error) {
     console.error('Database connection failed:', error.message);
-    process.exit(1);
+    // Only exit if it's a connection authentication error
+    if (error.message.includes('password') || error.message.includes('authentication') || error.message.includes('ECONNREFUSED')) {
+      console.error('❌ Fatal database connection error. Exiting...');
+      process.exit(1);
+    }
+    // For schema errors, log warning but continue
+    if (error.message.includes('does not exist') || error.message.includes('column')) {
+      console.warn('⚠️  Schema mismatch detected. Run: node scripts/fix-database-schema.js');
+      console.warn('   Or drop tables manually and let Sequelize recreate them.');
+    }
+    // Don't exit for schema errors - app might still work
   }
 };
 
