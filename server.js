@@ -17,7 +17,10 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
+// Trust proxy for Railway (fixes X-Forwarded-For warning)
+app.set('trust proxy', true);
+
+// Connect to PostgreSQL
 connectDB();
 
 // Security middleware

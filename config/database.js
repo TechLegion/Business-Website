@@ -39,15 +39,25 @@ const sequelize = config.url
   ? new Sequelize(config.url, {
       dialect: 'postgres',
       dialectOptions: config.dialectOptions,
-      logging: config.logging,
-      pool: config.pool
+      logging: process.env.NODE_ENV === 'development' ? console.log : false,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
     })
   : new Sequelize(config.database, config.username, config.password, {
       host: config.host,
       port: config.port,
       dialect: config.dialect,
-      logging: config.logging,
-      pool: config.pool
+      logging: process.env.NODE_ENV === 'development' ? console.log : false,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
     });
 
 const connectDB = async () => {
@@ -55,16 +65,22 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('📦 PostgreSQL Connected successfully');
     
-    // Sync models in development (create tables if they don't exist)
-    if (process.env.NODE_ENV !== 'production') {
-      await sequelize.sync({ alter: false }); // Use migrations in production
-      console.log('📊 Database models synchronized');
-    }
+    // Sync models (create tables if they don't exist)
+    // In production, this will only create tables if they don't exist (won't alter existing)
+    await sequelize.sync({ alter: false });
+    console.log('📊 Database models synchronized');
 
-    // Handle connection events
-    sequelize.connectionManager.pool.on('error', (err) => {
-      console.error('PostgreSQL connection error:', err);
-    });
+    // Handle connection events (pool might not be available immediately)
+    try {
+      const pool = sequelize.connectionManager.pool;
+      if (pool && typeof pool.on === 'function') {
+        pool.on('error', (err) => {
+          console.error('PostgreSQL connection error:', err);
+        });
+      }
+    } catch (err) {
+      // Pool not available yet, that's okay
+    }
 
     // Graceful shutdown
     process.on('SIGINT', async () => {
