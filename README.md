@@ -1,4 +1,8 @@
-# TekLegion Business Website - Full Stack
+# TekLegion Business Website
+
+> Modern business website with contact form, admin dashboard, and analytics
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template) - Full Stack
 
 A modern, responsive business website with a complete backend API for TekLegion, an IT consulting firm specializing in enterprise software, AI/ML solutions, and digital transformation.
 
@@ -107,6 +111,36 @@ npm start
 - **Frontend**: Open `index.html` in your browser or serve via a web server
 - **API Health Check**: http://localhost:5000/health
 - **API Documentation**: http://localhost:5000/
+
+## 🚢 Deployment
+
+### Railway Deployment
+
+This project is configured for easy deployment on Railway. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
+
+**Quick Start:**
+1. Push your code to GitHub
+2. Connect your repository to Railway
+3. Add environment variables in Railway dashboard
+4. Deploy!
+
+**Required Environment Variables:**
+- `NODE_ENV=production`
+- `PORT` (auto-set by Railway)
+- `MONGODB_URI` (your MongoDB connection string)
+- `FRONTEND_URL` (your Railway app URL)
+- `EMAIL_USER`, `EMAIL_PASS` (email credentials)
+- `ADMIN_TOKEN` (secure admin token)
+- `JWT_SECRET`, `SESSION_SECRET` (security secrets)
+
+### GitHub
+
+The project includes:
+- `.gitignore` configured to exclude sensitive files
+- `env.example` template for environment variables
+- Production-ready server configuration
+
+**Important:** Never commit `config.env` to Git. Use environment variables in production.
 
 ## 📧 Email Setup
 
