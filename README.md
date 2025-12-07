@@ -22,7 +22,7 @@ A modern, responsive business website with a complete backend API for TekLegion,
 - **Analytics Dashboard**: Comprehensive user behavior and website analytics
 - **Admin Panel**: Complete admin interface for managing contacts and analytics
 - **Security**: Rate limiting, CORS, input validation, and data sanitization
-- **Database**: MongoDB with optimized schemas and indexing
+- **Database**: PostgreSQL with Sequelize ORM and optimized schemas
 
 ## 🛠️ Tech Stack
 
@@ -34,7 +34,7 @@ A modern, responsive business website with a complete backend API for TekLegion,
 
 ### Backend
 - Node.js with Express.js
-- MongoDB with Mongoose ODM
+- PostgreSQL with Sequelize ORM
 - Nodemailer for email services
 - Express Validator for input validation
 - Handlebars for email templates
@@ -44,7 +44,7 @@ A modern, responsive business website with a complete backend API for TekLegion,
 
 ### Prerequisites
 - Node.js (v16 or higher)
-- MongoDB (local or cloud instance)
+- PostgreSQL (local or cloud instance)
 - Email service account (Gmail, SendGrid, etc.)
 
 ### 1. Clone the Repository
@@ -79,7 +79,11 @@ PORT=5000
 FRONTEND_URL=http://localhost:3000
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/teklegion
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=teklegion_business
+DB_USER=postgres
+DB_PASSWORD=your-password
 
 # Email Configuration
 EMAIL_SERVICE=gmail
@@ -127,7 +131,7 @@ This project is configured for easy deployment on Railway. See [DEPLOYMENT.md](.
 **Required Environment Variables:**
 - `NODE_ENV=production`
 - `PORT` (auto-set by Railway)
-- `MONGODB_URI` (your MongoDB connection string)
+- `DATABASE_URL` or `DB_*` variables (your PostgreSQL connection string)
 - `FRONTEND_URL` (your Railway app URL)
 - `EMAIL_USER`, `EMAIL_PASS` (email credentials)
 - `ADMIN_TOKEN` (secure admin token)
@@ -161,24 +165,33 @@ The system supports various email services:
 
 ## 🗄️ Database Setup
 
-### Local MongoDB
+### Local PostgreSQL
 ```bash
-# Install MongoDB locally
+# Install PostgreSQL locally
 # macOS with Homebrew
-brew install mongodb-community
+brew install postgresql@14
 
-# Start MongoDB service
-brew services start mongodb-community
+# Start PostgreSQL service
+brew services start postgresql@14
 
-# Or start manually
-mongod --dbpath /usr/local/var/mongodb
+# Create database
+createdb teklegion_business
+
+# Or using psql
+psql -U postgres
+CREATE DATABASE teklegion_business;
 ```
 
-### MongoDB Atlas (Cloud)
-1. Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Create a new cluster
-3. Get your connection string
-4. Update `MONGODB_URI` in your `.env` file
+### PostgreSQL on Railway (Recommended)
+1. Add PostgreSQL service in Railway dashboard
+2. Railway automatically sets `DATABASE_URL` environment variable
+3. No additional configuration needed
+
+### External PostgreSQL (Supabase, Neon, etc.)
+1. Create a PostgreSQL database
+2. Get your connection string
+3. Set `DATABASE_URL` in your environment variables
+4. Format: `postgresql://user:password@host:port/database`
 
 ## 🔧 API Endpoints
 

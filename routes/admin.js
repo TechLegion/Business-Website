@@ -1,13 +1,13 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const Contact = require('../models/Contact');
 const Analytics = require('../models/Analytics');
 const emailService = require('../services/emailService');
 
 const router = express.Router();
 
-// Middleware to check admin authentication (placeholder)
+// Middleware to check admin authentication
 const requireAuth = (req, res, next) => {
-  // In a real application, implement proper JWT authentication
   const token = req.headers.authorization?.replace('Bearer ', '');
   
   if (!token || token !== process.env.ADMIN_TOKEN) {
@@ -34,10 +34,11 @@ router.get('/dashboard', async (req, res) => {
     const contactStats = await Contact.getStats();
     
     // Get recent contacts
-    const recentContacts = await Contact.find()
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .select('name email subject status createdAt');
+    const recentContacts = await Contact.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 5,
+      attributes: ['id', 'name', 'email', 'subject', 'status', 'createdAt']
+    });
 
     // Get analytics overview
     const pageViews = await Analytics.getPageViews(startDate, new Date());
@@ -45,14 +46,22 @@ router.get('/dashboard', async (req, res) => {
     const dailyStats = await Analytics.getDailyStats(parseInt(days));
 
     // Get contact form conversion rate
-    const totalPageViews = await Analytics.countDocuments({
-      event: 'page_view',
-      page: 'contact',
-      timestamp: { $gte: startDate }
+    const totalPageViews = await Analytics.count({
+      where: {
+        event: 'page_view',
+        page: 'contact',
+        timestamp: {
+          [Op.gte]: startDate
+        }
+      }
     });
     
-    const contactSubmissions = await Contact.countDocuments({
-      createdAt: { $gte: startDate }
+    const contactSubmissions = await Contact.count({
+      where: {
+        createdAt: {
+          [Op.gte]: startDate
+        }
+      }
     });
     
     const conversionRate = totalPageViews > 0 ? (contactSubmissions / totalPageViews * 100).toFixed(2) : 0;
@@ -103,50 +112,49 @@ router.get('/contacts', async (req, res) => {
       sortOrder = 'desc'
     } = req.query;
 
-    // Build query
-    const query = {};
+    // Build where clause
+    const where = {};
     
-    if (status) query.status = status;
-    if (priority) query.priority = priority;
-    if (budget) query.budget = budget;
+    if (status) where.status = status;
+    if (priority) where.priority = priority;
+    if (budget) where.budget = budget;
     
     if (dateFrom || dateTo) {
-      query.createdAt = {};
-      if (dateFrom) query.createdAt.$gte = new Date(dateFrom);
-      if (dateTo) query.createdAt.$lte = new Date(dateTo);
+      where.createdAt = {};
+      if (dateFrom) where.createdAt[Op.gte] = new Date(dateFrom);
+      if (dateTo) where.createdAt[Op.lte] = new Date(dateTo);
     }
     
     if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-        { subject: { $regex: search, $options: 'i' } },
-        { message: { $regex: search, $options: 'i' } },
-        { company: { $regex: search, $options: 'i' } }
+      where[Op.or] = [
+        { name: { [Op.iLike]: `%${search}%` } },
+        { email: { [Op.iLike]: `%${search}%` } },
+        { subject: { [Op.iLike]: `%${search}%` } },
+        { message: { [Op.iLike]: `%${search}%` } },
+        { company: { [Op.iLike]: `%${search}%` } }
       ];
     }
 
     // Calculate pagination
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const sortOptions = {};
-    sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+    const order = [[sortBy, sortOrder.toUpperCase()]];
 
     // Execute query
-    const contacts = await Contact.find(query)
-      .sort(sortOptions)
-      .skip(skip)
-      .limit(parseInt(limit))
-      .select('-__v');
-
-    const total = await Contact.countDocuments(query);
+    const { count, rows: contacts } = await Contact.findAndCountAll({
+      where,
+      order,
+      offset,
+      limit: parseInt(limit),
+      attributes: { exclude: [] }
+    });
 
     res.json({
       success: true,
       data: contacts,
       pagination: {
         current: parseInt(page),
-        pages: Math.ceil(total / parseInt(limit)),
-        total,
+        pages: Math.ceil(count / parseInt(limit)),
+        total: count,
         limit: parseInt(limit)
       }
     });
@@ -166,7 +174,7 @@ router.put('/contacts/:id', async (req, res) => {
     const { id } = req.params;
     const { status, priority, notes, response } = req.body;
 
-    const contact = await Contact.findById(id);
+    const contact = await Contact.findByPk(id);
     if (!contact) {
       return res.status(404).json({
         success: false,
@@ -178,11 +186,13 @@ router.put('/contacts/:id', async (req, res) => {
     if (status) contact.status = status;
     if (priority) contact.priority = priority;
     if (notes) {
-      contact.notes.push({
+      const currentNotes = contact.notes || [];
+      currentNotes.push({
         note: notes,
         addedBy: 'admin',
         addedAt: new Date()
       });
+      contact.notes = currentNotes;
     }
     if (response) {
       contact.response = {
@@ -215,8 +225,11 @@ router.delete('/contacts/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const contact = await Contact.findByIdAndDelete(id);
-    if (!contact) {
+    const deleted = await Contact.destroy({
+      where: { id }
+    });
+
+    if (!deleted) {
       return res.status(404).json({
         success: false,
         message: 'Contact not found'
@@ -243,7 +256,7 @@ router.post('/contacts/:id/respond', async (req, res) => {
     const { id } = req.params;
     const { message, sendEmail = true } = req.body;
 
-    const contact = await Contact.findById(id);
+    const contact = await Contact.findByPk(id);
     if (!contact) {
       return res.status(404).json({
         success: false,
@@ -252,21 +265,13 @@ router.post('/contacts/:id/respond', async (req, res) => {
     }
 
     // Update contact with response
-    contact.status = 'responded';
-    contact.response = {
-      message,
-      respondedBy: 'admin',
-      respondedAt: new Date()
-    };
-
-    await contact.save();
+    await contact.markAsResponded(message, 'admin');
 
     // Send email response if requested
     if (sendEmail) {
       try {
-        // This would need a proper email template for responses
         await emailService.sendContactConfirmation({
-          ...contact.toObject(),
+          ...contact.toJSON(),
           subject: `Re: ${contact.subject}`,
           message: `Thank you for contacting TekLegion. Here's our response:\n\n${message}`
         });
@@ -299,23 +304,25 @@ router.get('/analytics', async (req, res) => {
     const start = startDate ? new Date(startDate) : new Date(Date.now() - parseInt(days) * 24 * 60 * 60 * 1000);
     const end = endDate ? new Date(endDate) : new Date();
 
-    const [
-      pageViews,
-      deviceStats,
-      trafficSources,
-      dailyStats,
-      eventStats,
-      contactStats
-    ] = await Promise.all([
+    const [pageViews, deviceStats, trafficSources, dailyStats, eventStats, contactStats] = await Promise.all([
       Analytics.getPageViews(start, end),
       Analytics.getDeviceStats(start, end),
       Analytics.getTrafficSources(start, end),
       Analytics.getDailyStats(parseInt(days)),
-      Analytics.aggregate([
-        { $match: { timestamp: { $gte: start, $lte: end } } },
-        { $group: { _id: '$event', count: { $sum: 1 } } },
-        { $sort: { count: -1 } }
-      ]),
+      Analytics.findAll({
+        where: {
+          timestamp: {
+            [Op.between]: [start, end]
+          }
+        },
+        attributes: [
+          'event',
+          [Analytics.sequelize.fn('COUNT', Analytics.sequelize.col('Analytics.id')), 'count']
+        ],
+        group: ['event'],
+        order: [[Analytics.sequelize.literal('count'), 'DESC']],
+        raw: true
+      }),
       Contact.getStats()
     ]);
 
@@ -326,7 +333,10 @@ router.get('/analytics', async (req, res) => {
         deviceStats,
         trafficSources,
         dailyStats,
-        eventStats,
+        eventStats: eventStats.map(item => ({
+          event: item.event,
+          count: parseInt(item.count) || 0
+        })),
         contactStats,
         period: { start, end, days: parseInt(days) }
       }
@@ -346,17 +356,19 @@ router.get('/export/contacts', async (req, res) => {
   try {
     const { status, dateFrom, dateTo } = req.query;
     
-    const query = {};
-    if (status) query.status = status;
+    const where = {};
+    if (status) where.status = status;
     if (dateFrom || dateTo) {
-      query.createdAt = {};
-      if (dateFrom) query.createdAt.$gte = new Date(dateFrom);
-      if (dateTo) query.createdAt.$lte = new Date(dateTo);
+      where.createdAt = {};
+      if (dateFrom) where.createdAt[Op.gte] = new Date(dateFrom);
+      if (dateTo) where.createdAt[Op.lte] = new Date(dateTo);
     }
 
-    const contacts = await Contact.find(query)
-      .sort({ createdAt: -1 })
-      .select('name email subject message budget company phone status priority createdAt');
+    const contacts = await Contact.findAll({
+      where,
+      order: [['createdAt', 'DESC']],
+      attributes: ['name', 'email', 'subject', 'message', 'budget', 'company', 'phone', 'status', 'priority', 'createdAt']
+    });
 
     // Convert to CSV
     const csvHeader = 'Name,Email,Subject,Message,Budget,Company,Phone,Status,Priority,Created At\n';
@@ -366,7 +378,7 @@ router.get('/export/contacts', async (req, res) => {
         contact.email,
         contact.subject,
         `"${contact.message.replace(/"/g, '""')}"`,
-        contact.budgetDisplay,
+        contact.getBudgetDisplay(),
         contact.company || '',
         contact.phone || '',
         contact.status,
@@ -401,7 +413,7 @@ router.get('/settings', (req, res) => {
       },
       database: {
         connected: true,
-        type: 'MongoDB'
+        type: 'PostgreSQL'
       },
       features: {
         analytics: true,

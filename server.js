@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: './config.env' });
 }
 
-const connectDB = require('./config/database');
+const { connectDB } = require('./config/database');
 const adminRoutes = require('./routes/admin');
 
 const app = express();

@@ -1,193 +1,205 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+const { Op } = require('sequelize');
 
-const analyticsSchema = new mongoose.Schema({
+const Analytics = sequelize.define('Analytics', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   event: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false
   },
   page: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false
   },
   userAgent: {
-    type: String,
-    required: true
+    type: DataTypes.TEXT,
+    allowNull: false
   },
   ipAddress: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false
   },
   referrer: {
-    type: String,
-    default: 'direct'
+    type: DataTypes.STRING,
+    defaultValue: 'direct'
   },
   country: {
-    type: String,
-    default: 'Unknown'
+    type: DataTypes.STRING,
+    defaultValue: 'Unknown'
   },
   city: {
-    type: String,
-    default: 'Unknown'
+    type: DataTypes.STRING,
+    defaultValue: 'Unknown'
   },
   device: {
-    type: String,
-    enum: ['desktop', 'mobile', 'tablet'],
-    default: 'desktop'
+    type: DataTypes.ENUM('desktop', 'mobile', 'tablet'),
+    defaultValue: 'desktop'
   },
   browser: {
-    type: String,
-    default: 'Unknown'
+    type: DataTypes.STRING,
+    defaultValue: 'Unknown'
   },
   os: {
-    type: String,
-    default: 'Unknown'
+    type: DataTypes.STRING,
+    defaultValue: 'Unknown'
   },
   screenResolution: {
-    type: String,
-    default: 'Unknown'
+    type: DataTypes.STRING,
+    defaultValue: 'Unknown'
   },
   language: {
-    type: String,
-    default: 'en'
+    type: DataTypes.STRING(10),
+    defaultValue: 'en'
   },
   sessionId: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false
   },
   userId: {
-    type: String,
-    default: null
+    type: DataTypes.STRING,
+    allowNull: true
   },
   metadata: {
-    type: mongoose.Schema.Types.Mixed,
-    default: {}
+    type: DataTypes.JSONB,
+    defaultValue: {}
   },
   timestamp: {
-    type: Date,
-    default: Date.now
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
 }, {
-  timestamps: true
+  tableName: 'analytics',
+  timestamps: true,
+  underscored: false,
+  indexes: [
+    { fields: ['event', 'timestamp'] },
+    { fields: ['page', 'timestamp'] },
+    { fields: ['session_id'] },
+    { fields: ['ip_address', 'timestamp'] }
+  ]
 });
 
-// Indexes for analytics queries
-analyticsSchema.index({ event: 1, timestamp: -1 });
-analyticsSchema.index({ page: 1, timestamp: -1 });
-analyticsSchema.index({ sessionId: 1 });
-analyticsSchema.index({ ipAddress: 1, timestamp: -1 });
-
 // Static method to get page views
-analyticsSchema.statics.getPageViews = async function(startDate, endDate) {
-  const matchStage = {};
+Analytics.getPageViews = async function(startDate, endDate) {
+  const whereClause = {
+    event: 'page_view'
+  };
+
   if (startDate && endDate) {
-    matchStage.timestamp = {
-      $gte: new Date(startDate),
-      $lte: new Date(endDate)
+    whereClause.timestamp = {
+      [Op.between]: [new Date(startDate), new Date(endDate)]
     };
   }
 
-  return await this.aggregate([
-    { $match: { event: 'page_view', ...matchStage } },
-    {
-      $group: {
-        _id: '$page',
-        views: { $sum: 1 },
-        uniqueSessions: { $addToSet: '$sessionId' }
-      }
-    },
-    {
-      $project: {
-        page: '$_id',
-        views: 1,
-        uniqueViews: { $size: '$uniqueSessions' }
-      }
-    },
-    { $sort: { views: -1 } }
-  ]);
+  const pageViews = await Analytics.findAll({
+    where: whereClause,
+    attributes: [
+      'page',
+      [sequelize.fn('COUNT', sequelize.col('Analytics.id')), 'views'],
+      [sequelize.fn('COUNT', sequelize.fn('DISTINCT', sequelize.col('Analytics.session_id'))), 'uniqueViews']
+    ],
+    group: ['page'],
+    order: [[sequelize.literal('views'), 'DESC']],
+    raw: true
+  });
+
+  return pageViews.map(item => ({
+    page: item.page,
+    views: parseInt(item.views) || 0,
+    uniqueViews: parseInt(item.uniqueViews) || 0
+  }));
 };
 
 // Static method to get device statistics
-analyticsSchema.statics.getDeviceStats = async function(startDate, endDate) {
-  const matchStage = {};
+Analytics.getDeviceStats = async function(startDate, endDate) {
+  const whereClause = {
+    event: 'page_view'
+  };
+
   if (startDate && endDate) {
-    matchStage.timestamp = {
-      $gte: new Date(startDate),
-      $lte: new Date(endDate)
+    whereClause.timestamp = {
+      [Op.between]: [new Date(startDate), new Date(endDate)]
     };
   }
 
-  return await this.aggregate([
-    { $match: { event: 'page_view', ...matchStage } },
-    {
-      $group: {
-        _id: '$device',
-        count: { $sum: 1 }
-      }
-    },
-    { $sort: { count: -1 } }
-  ]);
+  const deviceStats = await Analytics.findAll({
+    where: whereClause,
+    attributes: [
+      'device',
+      [sequelize.fn('COUNT', sequelize.col('Analytics.id')), 'count']
+    ],
+    group: ['device'],
+    order: [[sequelize.literal('count'), 'DESC']],
+    raw: true
+  });
+
+  return deviceStats.map(item => ({
+    device: item.device,
+    count: parseInt(item.count) || 0
+  }));
 };
 
 // Static method to get traffic sources
-analyticsSchema.statics.getTrafficSources = async function(startDate, endDate) {
-  const matchStage = {};
+Analytics.getTrafficSources = async function(startDate, endDate) {
+  const whereClause = {
+    event: 'page_view'
+  };
+
   if (startDate && endDate) {
-    matchStage.timestamp = {
-      $gte: new Date(startDate),
-      $lte: new Date(endDate)
+    whereClause.timestamp = {
+      [Op.between]: [new Date(startDate), new Date(endDate)]
     };
   }
 
-  return await this.aggregate([
-    { $match: { event: 'page_view', ...matchStage } },
-    {
-      $group: {
-        _id: '$referrer',
-        count: { $sum: 1 }
-      }
-    },
-    { $sort: { count: -1 } }
-  ]);
+  const trafficSources = await Analytics.findAll({
+    where: whereClause,
+    attributes: [
+      'referrer',
+      [sequelize.fn('COUNT', sequelize.col('Analytics.id')), 'count']
+    ],
+    group: ['referrer'],
+    order: [[sequelize.literal('count'), 'DESC']],
+    raw: true
+  });
+
+  return trafficSources.map(item => ({
+    referrer: item.referrer,
+    count: parseInt(item.count) || 0
+  }));
 };
 
 // Static method to get daily stats
-analyticsSchema.statics.getDailyStats = async function(days = 30) {
+Analytics.getDailyStats = async function(days = 30) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
 
-  return await this.aggregate([
-    {
-      $match: {
-        timestamp: { $gte: startDate },
-        event: 'page_view'
+  const dailyStats = await Analytics.findAll({
+    where: {
+      event: 'page_view',
+      timestamp: {
+        [Op.gte]: startDate
       }
     },
-    {
-      $group: {
-        _id: {
-          year: { $year: '$timestamp' },
-          month: { $month: '$timestamp' },
-          day: { $dayOfMonth: '$timestamp' }
-        },
-        views: { $sum: 1 },
-        uniqueSessions: { $addToSet: '$sessionId' }
-      }
-    },
-    {
-      $project: {
-        date: {
-          $dateFromParts: {
-            year: '$_id.year',
-            month: '$_id.month',
-            day: '$_id.day'
-          }
-        },
-        views: 1,
-        uniqueViews: { $size: '$uniqueSessions' }
-      }
-    },
-    { $sort: { date: 1 } }
-  ]);
+    attributes: [
+      [sequelize.fn('DATE', sequelize.col('Analytics.timestamp')), 'date'],
+      [sequelize.fn('COUNT', sequelize.col('Analytics.id')), 'views'],
+      [sequelize.fn('COUNT', sequelize.fn('DISTINCT', sequelize.col('Analytics.session_id'))), 'uniqueViews']
+    ],
+    group: [sequelize.fn('DATE', sequelize.col('Analytics.timestamp'))],
+    order: [[sequelize.fn('DATE', sequelize.col('Analytics.timestamp')), 'ASC']],
+    raw: true
+  });
+
+  return dailyStats.map(item => ({
+    date: item.date,
+    views: parseInt(item.views) || 0,
+    uniqueViews: parseInt(item.uniqueViews) || 0
+  }));
 };
 
-module.exports = mongoose.model('Analytics', analyticsSchema, 'business_data');
+module.exports = Analytics;

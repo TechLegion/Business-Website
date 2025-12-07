@@ -32,7 +32,13 @@
    NODE_ENV=production
    PORT=5000
    FRONTEND_URL=https://your-app.railway.app
-   MONGODB_URI=your-mongodb-connection-string
+   DATABASE_URL=postgresql://user:password@host:port/database
+   # OR use individual DB variables:
+   # DB_HOST=host
+   # DB_PORT=5432
+   # DB_NAME=teklegion_business
+   # DB_USER=postgres
+   # DB_PASSWORD=password
    EMAIL_SERVICE=gmail
    EMAIL_HOST=smtp.gmail.com
    EMAIL_PORT=465
@@ -44,10 +50,11 @@
    SESSION_SECRET=your-session-secret
    ```
 
-4. **MongoDB Setup**
-   - Use MongoDB Atlas (free tier available)
-   - Or add Railway MongoDB service
-   - Update MONGODB_URI with your connection string
+4. **PostgreSQL Setup**
+   - Add Railway PostgreSQL service (recommended)
+   - Railway will automatically set DATABASE_URL
+   - Or use external PostgreSQL (like Supabase, Neon, etc.)
+   - Update DATABASE_URL or individual DB variables with your connection string
 
 5. **Custom Domain (Optional)**
    - In Railway, go to Settings → Domains
@@ -63,7 +70,7 @@ Use `env.example` as a template for required variables.
 ## Production Checklist
 
 - [ ] All environment variables set in Railway
-- [ ] MongoDB connection string configured
+- [ ] PostgreSQL database configured (DATABASE_URL or DB_* variables)
 - [ ] Email service credentials configured
 - [ ] CORS origins updated for production domain
 - [ ] Admin token set to a secure value
