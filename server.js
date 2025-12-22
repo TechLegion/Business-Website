@@ -13,6 +13,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const { connectDB } = require('./config/database');
 const adminRoutes = require('./routes/admin');
+const Contact = require('./models/Contact');
+const Analytics = require('./models/Analytics');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -96,6 +98,79 @@ app.get('/api', (req, res) => {
   });
 });
 
+// Contact form submission endpoint
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message, phone, company, budget } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all required fields (name, email, subject, message)'
+      });
+    }
+
+    // Create contact in database
+    const contact = await Contact.create({
+      name,
+      email,
+      subject,
+      message,
+      phone: phone || null,
+      company: company || null,
+      budget: budget || 'discuss',
+      ipAddress: req.ip || req.connection.remoteAddress || 'unknown',
+      userAgent: req.get('User-Agent') || 'unknown'
+    });
+
+    console.log(`📧 New contact from ${name} (${email}): ${subject}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Thank you for your message! We\'ll get back to you soon.',
+      contactId: contact.id
+    });
+  } catch (error) {
+    console.error('Contact form error:', error);
+    
+    // Handle validation errors
+    if (error.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: error.errors.map(e => e.message).join(', ')
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong. Please try again later.'
+    });
+  }
+});
+
+// Analytics tracking endpoint
+app.post('/api/analytics/track', async (req, res) => {
+  try {
+    const { event, page, metadata, sessionId } = req.body;
+
+    await Analytics.create({
+      event: event || 'page_view',
+      page: page || '/',
+      userAgent: req.get('User-Agent') || 'unknown',
+      ipAddress: req.ip || req.connection.remoteAddress || 'unknown',
+      referrer: req.get('Referrer') || 'direct',
+      sessionId: sessionId || `session_${Date.now()}`,
+      metadata: metadata || {}
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Analytics error:', error);
+    res.json({ success: false });
+  }
+});
+
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
   res.status(404).json({
@@ -104,7 +179,9 @@ app.use('/api/*', (req, res) => {
     availableEndpoints: [
       'GET /health',
       'GET /api',
-      'GET /api/admin'
+      'POST /api/contact',
+      'POST /api/analytics/track',
+      'GET /api/admin/*'
     ]
   });
 });
