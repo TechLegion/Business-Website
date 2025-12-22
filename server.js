@@ -15,6 +15,7 @@ const { connectDB } = require('./config/database');
 const adminRoutes = require('./routes/admin');
 const Contact = require('./models/Contact');
 const Analytics = require('./models/Analytics');
+const emailService = require('./services/emailService');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -129,6 +130,34 @@ app.post('/api/contact', async (req, res) => {
     });
 
     console.log(`📧 New contact from ${name} (${email}): ${subject}`);
+
+    // Send email notifications (don't wait for them to complete)
+    try {
+      // Send notification to admin
+      await emailService.sendContactNotification({
+        name,
+        email,
+        subject,
+        message,
+        phone,
+        company,
+        budget,
+        _id: contact.id
+      });
+      console.log('✅ Admin notification email sent');
+
+      // Send confirmation to user
+      await emailService.sendContactConfirmation({
+        name,
+        email,
+        subject,
+        _id: contact.id
+      });
+      console.log('✅ User confirmation email sent');
+    } catch (emailError) {
+      console.error('⚠️ Email sending failed:', emailError.message);
+      // Don't fail the request if email fails - contact is already saved
+    }
 
     res.status(201).json({
       success: true,
