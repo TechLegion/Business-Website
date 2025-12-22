@@ -30,11 +30,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://unpkg.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
-      scriptSrc: ["'self'", "https://unpkg.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"]
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      connectSrc: ["'self'", "https://teklegion.org", "https://*.railway.app"]
     }
   }
 }));
@@ -58,6 +58,10 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// Body parsing middleware - MUST be before routes
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -132,7 +136,8 @@ app.post('/api/contact', async (req, res) => {
       contactId: contact.id
     });
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('Contact form error:', error.message);
+    console.error('Full error:', JSON.stringify(error, null, 2));
     
     // Handle validation errors
     if (error.name === 'SequelizeValidationError') {
@@ -142,9 +147,19 @@ app.post('/api/contact', async (req, res) => {
       });
     }
 
+    // Handle database connection errors
+    if (error.name === 'SequelizeConnectionError' || error.name === 'SequelizeDatabaseError') {
+      console.error('Database error:', error.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Database connection issue. Please try again later.'
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Something went wrong. Please try again later.'
+      message: 'Something went wrong. Please try again later.',
+      error: process.env.NODE_ENV !== 'production' ? error.message : undefined
     });
   }
 });
