@@ -1,5 +1,10 @@
 // ===== TEKLEGION WEBSITE - MODERN JAVASCRIPT =====
 
+// API Configuration - Auto-detect environment
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000'  // Local development
+    : 'https://teklegion.org';  // Production
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initNavigation();
@@ -199,7 +204,7 @@ function initContactForm() {
         
         try {
             // Send to backend API
-            const response = await fetch('http://localhost:5000/api/contact', {
+            const response = await fetch(`${API_BASE_URL}/api/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -578,7 +583,7 @@ if ('serviceWorker' in navigator) {
 // ===== ANALYTICS TRACKING =====
 function trackEvent(eventName, eventData = {}) {
     // Track to backend analytics
-    fetch('http://localhost:5000/api/analytics/track', {
+    fetch(`${API_BASE_URL}/api/analytics/track`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -601,7 +606,7 @@ function trackEvent(eventName, eventData = {}) {
 }
 
 function trackPageView() {
-    fetch('http://localhost:5000/api/analytics/track', {
+    fetch(`${API_BASE_URL}/api/analytics/track`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
