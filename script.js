@@ -19,10 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize AOS (Animate On Scroll)
     if (typeof AOS !== 'undefined') {
         AOS.init({
-            duration: 1000,
+            duration: 800,
             easing: 'ease-out-cubic',
             once: true,
-            offset: 100
+            offset: 50,
+            anchorPlacement: 'top-bottom'
         });
     }
 });
