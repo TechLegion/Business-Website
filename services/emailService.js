@@ -192,83 +192,119 @@ class EmailService {
 
       const html = `
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Thank you for contacting TekLegion</title>
         </head>
-        <body style="margin: 0; padding: 0; background-color: #0a0a0f; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0f; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#0a0a0f" style="background-color: #0a0a0f;">
             <tr>
-              <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #111118; border-radius: 8px; border: 1px solid #1e1e2e;">
+              <td align="center" style="padding: 40px 20px;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#111118" style="background-color: #111118; border-radius: 8px; max-width: 600px;">
                   
-                  <!-- Header -->
+                  <!-- Header with Logo -->
                   <tr>
-                    <td style="padding: 32px 40px; border-bottom: 1px solid #1e1e2e;">
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                    <td align="center" style="padding: 40px 40px 30px 40px;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                         <tr>
-                          <td>
-                            <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion" width="40" height="40" style="border-radius: 8px; vertical-align: middle;" />
-                            <span style="color: #ffffff; font-size: 18px; font-weight: 600; margin-left: 12px; vertical-align: middle;">TekLegion</span>
+                          <td align="center">
+                            <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="50" height="50" style="display: block; border: 0; border-radius: 8px;" />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center" style="padding-top: 16px;">
+                            <span style="color: #ffffff; font-size: 20px; font-weight: bold;">TekLegion</span>
                           </td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                   
-                  <!-- Content -->
+                  <!-- Main Content -->
                   <tr>
-                    <td style="padding: 40px;">
-                      <h1 style="color: #ffffff; font-size: 24px; font-weight: 600; margin: 0 0 24px 0;">Thank you for reaching out</h1>
-                      
-                      <p style="color: #d4d4d8; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">Hi ${contactData.name.split(' ')[0]},</p>
-                      
-                      <p style="color: #d4d4d8; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">We have received your inquiry regarding <span style="color: #ffffff; font-weight: 500;">"${contactData.subject}"</span> and appreciate you taking the time to contact us.</p>
-                      
-                      <!-- What's Next -->
-                      <div style="background-color: #0a0a0f; border-radius: 6px; padding: 24px; margin-bottom: 24px; border-left: 3px solid #818cf8;">
-                        <h2 style="color: #ffffff; font-size: 14px; font-weight: 600; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 0.5px;">What happens next</h2>
-                        <p style="color: #a1a1aa; font-size: 14px; line-height: 1.7; margin: 0;">Our team will review your message and respond within 24-48 business hours with a detailed response tailored to your needs.</p>
-                      </div>
-                      
-                      <!-- Inquiry Summary -->
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0f; border-radius: 6px; margin-bottom: 24px;">
+                    <td style="padding: 0 40px 40px 40px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                         <tr>
-                          <td style="padding: 24px;">
-                            <h2 style="color: #ffffff; font-size: 14px; font-weight: 600; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 0.5px;">Your inquiry</h2>
-                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                          <td>
+                            <h1 style="color: #ffffff; font-size: 22px; font-weight: bold; margin: 0 0 24px 0; text-align: center;">Thank you for reaching out</h1>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 20px;">
+                            Hi ${contactData.name.split(' ')[0]},
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 24px;">
+                            We have received your inquiry regarding <strong style="color: #ffffff;">"${contactData.subject}"</strong> and appreciate you taking the time to contact us.
+                          </td>
+                        </tr>
+                        
+                        <!-- What's Next Box -->
+                        <tr>
+                          <td style="padding-bottom: 24px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#1a1a24" style="background-color: #1a1a24; border-radius: 6px; border-left: 3px solid #818cf8;">
                               <tr>
-                                <td style="padding-bottom: 12px;">
-                                  <span style="color: #71717a; font-size: 13px;">Subject</span>
-                                  <p style="color: #ffffff; font-size: 14px; margin: 4px 0 0 0;">${contactData.subject}</p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="padding-top: 12px; border-top: 1px solid #1e1e2e;">
-                                  <span style="color: #71717a; font-size: 13px;">Submitted</span>
-                                  <p style="color: #ffffff; font-size: 14px; margin: 4px 0 0 0;">${date}</p>
+                                <td style="padding: 20px;">
+                                  <p style="color: #818cf8; font-size: 12px; font-weight: bold; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
+                                  <p style="color: #a1a1aa; font-size: 14px; line-height: 22px; margin: 0;">Our team will review your message and respond within 24-48 business hours with a detailed response tailored to your needs.</p>
                                 </td>
                               </tr>
                             </table>
                           </td>
                         </tr>
+                        
+                        <!-- Inquiry Summary -->
+                        <tr>
+                          <td style="padding-bottom: 24px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#1a1a24" style="background-color: #1a1a24; border-radius: 6px;">
+                              <tr>
+                                <td style="padding: 20px;">
+                                  <p style="color: #818cf8; font-size: 12px; font-weight: bold; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1px;">Your inquiry</p>
+                                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                      <td style="padding-bottom: 12px;">
+                                        <p style="color: #71717a; font-size: 12px; margin: 0 0 4px 0;">Subject</p>
+                                        <p style="color: #ffffff; font-size: 14px; margin: 0;">${contactData.subject}</p>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="padding-top: 12px; border-top: 1px solid #2a2a3a;">
+                                        <p style="color: #71717a; font-size: 12px; margin: 0 0 4px 0;">Submitted</p>
+                                        <p style="color: #ffffff; font-size: 14px; margin: 0;">${date}</p>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 24px;">
+                            For urgent matters, you can reach us directly at <a href="tel:+2347019683215" style="color: #818cf8; text-decoration: none;">+234 701-968-3215</a>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px;">
+                            Best regards,<br><strong style="color: #ffffff;">The TekLegion Team</strong>
+                          </td>
+                        </tr>
                       </table>
-                      
-                      <p style="color: #d4d4d8; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">For urgent matters, you can reach us directly at <a href="tel:+2347019683215" style="color: #818cf8; text-decoration: none;">+234 701-968-3215</a>.</p>
-                      
-                      <p style="color: #d4d4d8; font-size: 15px; line-height: 1.7; margin: 0;">Best regards,<br><span style="color: #ffffff; font-weight: 500;">The TekLegion Team</span></p>
                     </td>
                   </tr>
                   
                   <!-- Footer -->
                   <tr>
                     <td style="padding: 24px 40px; border-top: 1px solid #1e1e2e;">
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                         <tr>
-                          <td>
+                          <td align="center">
                             <p style="color: #52525b; font-size: 12px; margin: 0;">TekLegion - AI & Software Development</p>
-                            <p style="color: #52525b; font-size: 12px; margin: 4px 0 0 0;"><a href="https://teklegion.org" style="color: #71717a; text-decoration: none;">teklegion.org</a></p>
+                            <p style="color: #52525b; font-size: 12px; margin: 8px 0 0 0;"><a href="https://teklegion.org" style="color: #71717a; text-decoration: none;">teklegion.org</a></p>
                           </td>
                         </tr>
                       </table>
