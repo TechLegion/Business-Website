@@ -1,38 +1,19 @@
-const nodemailer = require('nodemailer');
-const path = require('path');
+const { Resend } = require('resend');
 
 class EmailService {
   constructor() {
-    this.transporter = null;
-    this.initializeTransporter();
+    this.resend = null;
+    this.initializeResend();
   }
 
-  initializeTransporter() {
-    // Create transporter based on environment
-    if (process.env.NODE_ENV === 'production') {
-      // Production email configuration (e.g., SendGrid, AWS SES)
-      this.transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE || 'gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
+  initializeResend() {
+    // Initialize Resend with API key
+    if (process.env.RESEND_API_KEY) {
+      this.resend = new Resend(process.env.RESEND_API_KEY);
+      console.log('📧 Email service initialized with Resend');
     } else {
-      // Development email configuration
-      this.transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-        port: process.env.EMAIL_PORT || 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
+      console.warn('⚠️ RESEND_API_KEY not set - emails will not be sent');
     }
-
-    // Note: Email templates will be handled as HTML strings for now
-    // In production, you can integrate with a template engine like Handlebars
   }
 
   async sendContactNotification(contactData) {
@@ -375,15 +356,19 @@ class EmailService {
         </html>
       `;
 
-      const mailOptions = {
-        from: `"TekLegion Contact Form" <${process.env.EMAIL_USER}>`,
-        to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER,
+      if (!this.resend) {
+        console.log('📧 Email service not configured - skipping notification');
+        return { success: false, message: 'Email service not configured' };
+      }
+
+      const result = await this.resend.emails.send({
+        from: 'TekLegion <onboarding@resend.dev>',
+        to: process.env.CONTACT_EMAIL || 'techlegion01@gmail.com',
         subject: `New Contact Form Submission: ${contactData.subject}`,
         html: html
-      };
+      });
 
-      const result = await this.transporter.sendMail(mailOptions);
-      console.log('Contact notification email sent:', result.messageId);
+      console.log('Contact notification email sent:', result.id);
       return result;
     } catch (error) {
       console.error('Error sending contact notification email:', error);
@@ -519,15 +504,19 @@ class EmailService {
         </html>
       `;
 
-      const mailOptions = {
-        from: `"TekLegion" <${process.env.EMAIL_USER}>`,
+      if (!this.resend) {
+        console.log('📧 Email service not configured - skipping confirmation');
+        return { success: false, message: 'Email service not configured' };
+      }
+
+      const result = await this.resend.emails.send({
+        from: 'TekLegion <onboarding@resend.dev>',
         to: contactData.email,
         subject: 'Thank you for contacting TekLegion',
         html: html
-      };
+      });
 
-      const result = await this.transporter.sendMail(mailOptions);
-      console.log('Contact confirmation email sent:', result.messageId);
+      console.log('Contact confirmation email sent:', result.id);
       return result;
     } catch (error) {
       console.error('Error sending contact confirmation email:', error);
@@ -602,8 +591,11 @@ class EmailService {
 
   async testConnection() {
     try {
-      await this.transporter.verify();
-      console.log('Email service connection verified');
+      if (!this.resend) {
+        console.log('Email service not configured');
+        return false;
+      }
+      console.log('Email service (Resend) ready');
       return true;
     } catch (error) {
       console.error('Email service connection failed:', error);
