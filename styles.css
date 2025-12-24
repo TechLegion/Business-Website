@@ -797,6 +797,39 @@ body::before {
     color: var(--text-secondary);
 }
 
+/* About Stats Cards */
+.about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stat-card {
+    padding: 28px 32px;
+    background: var(--dark-card);
+    border-radius: 16px;
+    border: 1px solid var(--dark-border);
+    transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+    border-color: rgba(94, 106, 210, 0.3);
+    transform: translateX(8px);
+}
+
+.stat-card .stat-number {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
 /* ===== SERVICES SECTION ===== */
 .services {
     padding: var(--section-padding);
