@@ -287,7 +287,7 @@ class EmailService {
           <div class="email-container">
             <div class="header">
               <div class="logo-section">
-                <img src="https://your-domain.com/images/TekLegion%20logo.png" alt="TekLegion Logo" class="logo" />
+                <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" class="logo" />
                 <div class="logo-text">TekLegion</div>
               </div>
               <h1>New Contact Form Submission</h1>
@@ -362,7 +362,7 @@ class EmailService {
       }
 
       const result = await this.resend.emails.send({
-        from: 'TekLegion <onboarding@resend.dev>',
+        from: 'TekLegion <contact@teklegion.org>',
         to: process.env.CONTACT_EMAIL || 'techlegion01@gmail.com',
         subject: `New Contact Form Submission: ${contactData.subject}`,
         html: html
@@ -457,7 +457,7 @@ class EmailService {
           <div class="email-container">
             <div class="header">
               <div class="logo-section">
-                <img src="https://your-domain.com/images/TekLegion%20logo.png" alt="TekLegion Logo" class="logo" />
+                <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" class="logo" />
                 <div class="logo-text">TekLegion</div>
               </div>
               <h1>Thank you for contacting us!</h1>
@@ -510,7 +510,7 @@ class EmailService {
       }
 
       const result = await this.resend.emails.send({
-        from: 'TekLegion <onboarding@resend.dev>',
+        from: 'TekLegion <contact@teklegion.org>',
         to: contactData.email,
         subject: 'Thank you for contacting TekLegion',
         html: html
