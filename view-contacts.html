@@ -110,9 +110,30 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:5000';
-        
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:5000'
+            : 'https://teklegion.org';
+
+        let adminToken = sessionStorage.getItem('admin_token') || '';
+
+        function promptForToken() {
+            const token = prompt('Enter admin token:');
+            if (token) {
+                adminToken = token;
+                sessionStorage.setItem('admin_token', token);
+                return true;
+            }
+            return false;
+        }
+
         async function loadContacts() {
+            if (!adminToken && !promptForToken()) {
+                document.getElementById('error').textContent = 'Authentication required. Refresh to try again.';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
             const container = document.getElementById('contacts-container');
@@ -124,9 +145,15 @@
             try {
                 const response = await fetch(`${API_BASE}/api/admin/contacts`, {
                     headers: {
-                        'Authorization': 'Bearer teklegion-admin-2025-secure-token'
+                        'Authorization': `Bearer ${adminToken}`
                     }
                 });
+
+                if (response.status === 401 || response.status === 403) {
+                    sessionStorage.removeItem('admin_token');
+                    adminToken = '';
+                    throw new Error('Invalid token. Refresh the page and try again.');
+                }
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);

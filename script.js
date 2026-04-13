@@ -54,7 +54,12 @@ function initNavigation() {
     navToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         navToggle.classList.toggle('active');
-        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        const isOpen = navMenu.classList.contains('active');
+        document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+        navToggle.setAttribute('aria-expanded', isOpen);
+        if (isOpen) {
+            trapFocus(navMenu);
+        }
     });
 
     // Close mobile menu when clicking on links
@@ -484,10 +489,10 @@ const counterObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.5 });
 
-// Observe hero stats section
-const heroStats = document.querySelector('.hero-stats');
-if (heroStats) {
-    counterObserver.observe(heroStats);
+// Observe stats section (in about or hero)
+const statsSection = document.querySelector('.about-stats') || document.querySelector('.hero-stats');
+if (statsSection) {
+    counterObserver.observe(statsSection);
 }
 
 // ===== LOADING ANIMATION =====
