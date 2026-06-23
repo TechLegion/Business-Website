@@ -285,7 +285,7 @@ class EmailService {
                         
                         <tr>
                           <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 24px;">
-                            For urgent matters, you can reach us directly at <a href="tel:+2347019683215" style="color: #818cf8; text-decoration: none;">+234 701-968-3215</a>.
+                            For urgent matters, you can reach us directly at <a href="tel:+2347019683215" style="color: #818cf8; text-decoration: none;">2348107429870</a>.
                           </td>
                         </tr>
                         <tr>

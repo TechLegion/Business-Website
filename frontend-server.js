@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 // Route for other HTML files
 app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname, 'contact.html'));
+  res.redirect(301, '/#contact');
 });
 
 app.get('/admin', (req, res) => {

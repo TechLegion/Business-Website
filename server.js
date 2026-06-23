@@ -239,7 +239,7 @@ if (process.env.NODE_ENV === 'production') {
   
   // Serve specific HTML pages
   app.get('/contact', (req, res) => {
-    res.sendFile(path.join(__dirname, 'contact.html'));
+    res.redirect(301, '/#contact');
   });
   
   app.get('/admin', (req, res) => {

@@ -300,7 +300,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For support and questions:
 - Email: techlegion01@gmail.com
-- Phone: +234 70-1968-3215
+- Phone: 2348107429870
 - Website: [TekLegion](https://teklegion.com)
 
 ## 🔄 Updates

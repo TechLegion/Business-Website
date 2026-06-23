@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TekLegion - AI Solutions & Custom Software Development</title>
-    <link rel="icon" href="images/TekLegion logo.png" type="image/png">
+    <link rel="icon" href="images/TekLegion_dark_for_light_theme.png" type="image/png">
     <meta name="description" content="AI-focused technology firm building intelligent software solutions that help businesses automate, scale, and stay ahead.">
     <meta name="keywords" content="AI solutions, software development, intelligent automation, custom software, data analytics, machine learning">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,11 +21,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Global interactive cursor ripple mesh -->
+    <canvas id="cursor-mesh" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1;"></canvas>
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="images/TekLegion logo.png" alt="TekLegion Logo" class="logo-image">
+                <img src="images/TekLegion_dark_for_light_theme.png" alt="TekLegion Logo" class="logo-image">
             </div>
             
             <ul class="nav-menu" id="nav-menu">
@@ -33,16 +36,17 @@
                     <a href="#home" class="nav-link active">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
+                    <a href="about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
                     <a href="#services" class="nav-link">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#github" class="nav-link">Open Source</a>
+                    <a href="#products" class="nav-link">Products</a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
+                    <a href="index.html#contact" class="btn-highlight" style="padding: 10px 24px; font-size: 0.95rem; margin-left: 15px;">Request a Demo</a>
                 </li>
             </ul>
             
@@ -64,91 +68,35 @@
                 <div class="floating-element" style="--delay: 6s; --duration: 18s;"></div>
                 <div class="floating-element" style="--delay: 8s; --duration: 22s;"></div>
             </div>
-            <!-- Animated Neural Network Background -->
-            <div class="neural-network">
-                <svg class="neural-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                        <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#5e6ad2;stop-opacity:0.6" />
-                            <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.4" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Connection Lines -->
-                    <g class="connections" stroke="rgba(94,106,210,0.15)" stroke-width="1">
-                        <line x1="100" y1="150" x2="250" y2="100" class="pulse-line"/>
-                        <line x1="100" y1="150" x2="250" y2="200" class="pulse-line"/>
-                        <line x1="100" y1="150" x2="250" y2="300" class="pulse-line"/>
-                        <line x1="250" y1="100" x2="400" y2="150" class="pulse-line"/>
-                        <line x1="250" y1="200" x2="400" y2="150" class="pulse-line"/>
-                        <line x1="250" y1="200" x2="400" y2="250" class="pulse-line"/>
-                        <line x1="250" y1="300" x2="400" y2="250" class="pulse-line"/>
-                        <line x1="400" y1="150" x2="550" y2="200" class="pulse-line"/>
-                        <line x1="400" y1="250" x2="550" y2="200" class="pulse-line"/>
-                        <line x1="550" y1="200" x2="700" y2="180" class="pulse-line"/>
-                    </g>
-                    <!-- Neural Nodes -->
-                    <g class="nodes">
-                        <circle cx="100" cy="150" r="8" fill="url(#nodeGradient)" class="node pulse-node"/>
-                        <circle cx="250" cy="100" r="6" fill="#5e6ad2" class="node pulse-node"/>
-                        <circle cx="250" cy="200" r="10" fill="url(#nodeGradient)" class="node pulse-node"/>
-                        <circle cx="250" cy="300" r="6" fill="#8b5cf6" class="node pulse-node"/>
-                        <circle cx="400" cy="150" r="8" fill="#5e6ad2" class="node pulse-node"/>
-                        <circle cx="400" cy="250" r="7" fill="url(#nodeGradient)" class="node pulse-node"/>
-                        <circle cx="550" cy="200" r="11" fill="url(#nodeGradient)" class="node pulse-node"/>
-                        <circle cx="700" cy="180" r="9" fill="#8b5cf6" class="node pulse-node"/>
-                    </g>
-                </svg>
-            </div>
-            <!-- Floating Tech Icons -->
-            <div class="floating-icons">
-                <div class="float-icon" style="--x: 10%; --y: 20%; --delay: 0s;"><i class="fas fa-brain"></i></div>
-                <div class="float-icon" style="--x: 85%; --y: 15%; --delay: 1s;"><i class="fas fa-code"></i></div>
-                <div class="float-icon" style="--x: 75%; --y: 70%; --delay: 2s;"><i class="fas fa-chart-line"></i></div>
-                <div class="float-icon" style="--x: 15%; --y: 75%; --delay: 1.5s;"><i class="fas fa-cogs"></i></div>
-                <div class="float-icon" style="--x: 90%; --y: 45%; --delay: 0.5s;"><i class="fas fa-database"></i></div>
-                <div class="float-icon" style="--x: 5%; --y: 50%; --delay: 2.5s;"><i class="fas fa-bolt"></i></div>
-            </div>
+            <!-- Three.js Neural Mesh Canvas -->
+            <canvas id="hero-canvas"></canvas>
             <div class="gradient-overlay"></div>
         </div>
 
         <div class="hero-content">
-            <div class="hero-badge" data-aos="fade-down" data-aos-delay="200">
-                <i class="fas fa-brain"></i>
-                <span>AI-First Development</span>
-            </div>
-            
-            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
-                <span class="title-line">Intelligent Software</span>
-                <span class="title-line highlight">Built For Your Business</span>
+            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300">
+                <span class="title-line">We build software</span>
+                <span class="title-line highlight">that thinks.</span>
             </h1>
             
-            <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
-                We build AI-powered solutions that automate the mundane, 
-                surface insights from your data, and help your business 
-                operate smarter at every level.
+            <p class="hero-description" data-aos="fade-up" data-aos-delay="500">
+                AI-powered solutions that automate, adapt, and scale with your business.
             </p>
             
-            <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
-                <a href="#contact" class="btn btn-primary">
-                    <span>Get Started</span>
+            <div class="hero-actions" data-aos="fade-up" data-aos-delay="700">
+                <a href="#contact" class="btn btn-highlight">
+                    <span>Request a Demo</span>
                     <i class="fas fa-arrow-right"></i>
                 </a>
                 <a href="#services" class="btn btn-secondary">
-                    <i class="fas fa-th-large"></i>
-                    <span>Our Services</span>
+                    <span>What we do</span>
                 </a>
             </div>
-
-        </div>
-
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <span class="scroll-text">Scroll to explore</span>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about" class="about dotted-grid">
         <!-- Animated Grid Background -->
         <div class="grid-animation">
             <div class="grid-line horizontal"></div>
@@ -160,7 +108,8 @@
         </div>
         <div class="container">
             <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">About TekLegion</h2>
+                <span class="section-kicker">Core Identity</span>
+                <h2 class="section-title">Our DNA</h2>
                 <p class="section-subtitle">AI-first development for modern businesses</p>
             </div>
             
@@ -200,19 +149,32 @@
                     </div>
                 </div>
                 
-                <div class="about-visual">
-                    <div class="about-stats">
-                        <div class="stat-card" data-aos="fade-left" data-aos-delay="100">
-                            <span class="stat-number">AI-First</span>
-                            <span class="stat-label">Intelligence by default</span>
+                <!-- AI Pipeline Visual -->
+                <div class="about-visual" data-aos="fade-left">
+                    <div class="ai-pipeline-widget">
+                        <div class="apw-header">
+                            <span class="apw-dot red"></span>
+                            <span class="apw-dot yellow"></span>
+                            <span class="apw-dot green"></span>
+                            <span class="apw-title">teklegion — ai_pipeline.py</span>
                         </div>
-                        <div class="stat-card" data-aos="fade-left" data-aos-delay="200">
-                            <span class="stat-number">Fast</span>
-                            <span class="stat-label">We ship quickly</span>
-                        </div>
-                        <div class="stat-card" data-aos="fade-left" data-aos-delay="300">
-                            <span class="stat-number">Reliable</span>
-                            <span class="stat-label">Solutions that last</span>
+                        <div class="apw-body">
+                            <div class="apw-row"><span class="apw-key">model</span><span class="apw-val">GPT-4o + custom fine-tune</span></div>
+                            <div class="apw-row"><span class="apw-key">status</span><span class="apw-val apw-live"><span class="apw-pulse"></span>RUNNING</span></div>
+                            <div class="apw-row"><span class="apw-key">latency</span><span class="apw-val" id="apw-latency">48ms</span></div>
+                            <div class="apw-row"><span class="apw-key">throughput</span><span class="apw-val" id="apw-throughput">3,241 req/s</span></div>
+                            <div class="apw-divider"></div>
+                            <div class="apw-log" id="apw-log">
+                                <div class="apw-log-line"><span class="apw-ts">[00:01]</span> Model loaded ✓</div>
+                                <div class="apw-log-line"><span class="apw-ts">[00:02]</span> Pipeline warm ✓</div>
+                                <div class="apw-log-line apw-blink" id="apw-live-line"><span class="apw-ts">[00:03]</span> Inference running...</div>
+                            </div>
+                            <div class="apw-divider"></div>
+                            <div class="apw-bars">
+                                <div class="apw-bar-row"><span>CPU</span><div class="apw-bar-track"><div class="apw-bar-fill" style="--w:62%"></div></div><span>62%</span></div>
+                                <div class="apw-bar-row"><span>GPU</span><div class="apw-bar-track"><div class="apw-bar-fill gpu" style="--w:87%"></div></div><span>87%</span></div>
+                                <div class="apw-bar-row"><span>RAM</span><div class="apw-bar-track"><div class="apw-bar-fill ram" style="--w:45%"></div></div><span>45%</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,130 +183,296 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="services">
-        <!-- Floating Orbs -->
-        <div class="floating-orbs">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
+    <section id="services" class="services-spotlight">
+        <div class="ssp-left">
+            <div class="ssp-header">
+                <span class="section-kicker">Capabilities</span>
+                <h2>What We<br>Actually Build</h2>
+            </div>
+            <ul class="ssp-tabs" id="ssp-tabs">
+                <li class="ssp-tab active" data-panel="ai">
+                    <span class="ssp-tab-num">01</span>
+                    <div>
+                        <strong>AI Solutions</strong>
+                        <p>Intelligent systems, end to end.</p>
+                    </div>
+                    <div class="ssp-tab-bar"></div>
+                </li>
+                <li class="ssp-tab" data-panel="software">
+                    <span class="ssp-tab-num">02</span>
+                    <div>
+                        <strong>Custom Software</strong>
+                        <p>Built from scratch, for your problem.</p>
+                    </div>
+                    <div class="ssp-tab-bar"></div>
+                </li>
+                <li class="ssp-tab" data-panel="data">
+                    <span class="ssp-tab-num">03</span>
+                    <div>
+                        <strong>Data Intelligence</strong>
+                        <p>From raw noise to clear signal.</p>
+                    </div>
+                    <div class="ssp-tab-bar"></div>
+                </li>
+                <li class="ssp-tab" data-panel="automation">
+                    <span class="ssp-tab-num">04</span>
+                    <div>
+                        <strong>Intelligent Automation</strong>
+                        <p>Workflows that run themselves.</p>
+                    </div>
+                    <div class="ssp-tab-bar"></div>
+                </li>
+            </ul>
         </div>
+
+        <div class="ssp-right" id="ssp-panels">
+
+            <!-- Panel 1: AI — neural canvas -->
+            <div class="ssp-panel active" data-panel="ai">
+                <div class="ssp-panel-visual" style="background:#0f172a">
+                    <canvas id="ssp-neural"></canvas>
+                    <div class="ssp-panel-badge">
+                        <span class="bm-badge-dot"></span> Model live
+                    </div>
+                </div>
+                <div class="ssp-panel-copy">
+                    <h3>Intelligence<br><em>by default.</em></h3>
+                    <p>We don't bolt AI on at the end. We engineer intelligent behaviour into the core of your product — custom LLM integrations, decision engines, classification pipelines, and more.</p>
+                    <a href="#contact" class="ssp-cta">Start a project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Panel 2: Custom Software — code editor mockup -->
+            <div class="ssp-panel" data-panel="software">
+                <div class="ssp-panel-visual" style="background:#1a1a2e">
+                    <div class="ssp-editor">
+                        <div class="ssp-editor-chrome">
+                            <span></span><span></span><span></span>
+                            <span class="ssp-editor-file">api/routes.ts</span>
+                        </div>
+                        <div class="ssp-editor-body" id="ssp-editor-body">
+                            <div class="se-line"><span class="se-ln">1</span><span class="se-kw">import</span> <span class="se-fn">{ Router }</span> <span class="se-kw">from</span> <span class="se-str">'express'</span>;</div>
+                            <div class="se-line"><span class="se-ln">2</span></div>
+                            <div class="se-line"><span class="se-ln">3</span><span class="se-kw">const</span> <span class="se-fn">router</span> = Router();</div>
+                            <div class="se-line"><span class="se-ln">4</span></div>
+                            <div class="se-line"><span class="se-ln">5</span><span class="se-fn">router</span>.<span class="se-method">post</span>(<span class="se-str">'/ai/infer'</span>, <span class="se-kw">async</span> (req, res) => {</div>
+                            <div class="se-line"><span class="se-ln">6</span>&nbsp;&nbsp;<span class="se-kw">const</span> result = <span class="se-kw">await</span> <span class="se-fn">model</span>.<span class="se-method">run</span>(req.body);</div>
+                            <div class="se-line"><span class="se-ln">7</span>&nbsp;&nbsp;res.<span class="se-method">json</span>({ result, <span class="se-str">status</span>: <span class="se-str">'ok'</span> });</div>
+                            <div class="se-line"><span class="se-ln">8</span>});</div>
+                            <div class="se-line se-cursor-line"><span class="se-ln">9</span><span class="se-cursor-blink">▋</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ssp-panel-copy">
+                    <h3>Engineered<br><em>precisely.</em></h3>
+                    <p>Web platforms, APIs, and internal tools — scoped clearly, built cleanly, and shipped fast. We write code that your team can own and maintain.</p>
+                    <a href="#contact" class="ssp-cta">Start a project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Panel 3: Data Intelligence — live ticker chart -->
+            <div class="ssp-panel" data-panel="data">
+                <div class="ssp-panel-visual" style="background:#0a0a1a">
+                    <div class="ssp-chart">
+                        <div class="ssp-chart-header">
+                            <span class="ssp-chart-title">Revenue Attribution Model</span>
+                            <span class="ssp-chart-change up">↑ 23.4%</span>
+                        </div>
+                        <svg class="ssp-sparkline" id="ssp-sparkline" viewBox="0 0 400 140" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path id="ssp-area" fill="url(#sparkGrad)"/>
+                            <path id="ssp-line" fill="none" stroke="#818cf8" stroke-width="2.5"/>
+                        </svg>
+                        <div class="ssp-metrics-row">
+                            <div class="ssp-metric"><span id="spm-a">3.2M</span><label>Events/day</label></div>
+                            <div class="ssp-metric"><span id="spm-b">98.7%</span><label>Accuracy</label></div>
+                            <div class="ssp-metric"><span id="spm-c">14ms</span><label>Query p99</label></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ssp-panel-copy">
+                    <h3>Data that<br><em>decides.</em></h3>
+                    <p>We turn your raw data into dashboards that actually explain things, predictive models that surface opportunities, and pipelines that keep insights flowing in real time.</p>
+                    <a href="#contact" class="ssp-cta">Start a project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Panel 4: Automation — animated pipeline -->
+            <div class="ssp-panel" data-panel="automation">
+                <div class="ssp-panel-visual" style="background:#060612">
+                    <div class="ssp-pipeline">
+                        <div class="ssp-pipe-node trigger"><i class="fas fa-bolt"></i><span>Event</span></div>
+                        <div class="ssp-pipe-track">
+                            <div class="ssp-pipe-particle"></div>
+                            <div class="ssp-pipe-particle" style="animation-delay:.4s"></div>
+                            <div class="ssp-pipe-particle" style="animation-delay:.8s"></div>
+                        </div>
+                        <div class="ssp-pipe-node process"><i class="fas fa-brain"></i><span>AI Decides</span></div>
+                        <div class="ssp-pipe-track">
+                            <div class="ssp-pipe-particle" style="animation-delay:.2s"></div>
+                            <div class="ssp-pipe-particle" style="animation-delay:.6s"></div>
+                            <div class="ssp-pipe-particle" style="animation-delay:1s"></div>
+                        </div>
+                        <div class="ssp-pipe-node output"><i class="fas fa-check-circle"></i><span>Action</span></div>
+                    </div>
+                    <div class="ssp-pipe-log">
+                        <div class="spl-line"><span class="spl-ok">✓</span> Order received → routing to fulfillment</div>
+                        <div class="spl-line"><span class="spl-ok">✓</span> Fraud score: 0.02 → approved</div>
+                        <div class="spl-line spl-blink"><span class="spl-ok">→</span> Processing ticket #8842...</div>
+                    </div>
+                </div>
+                <div class="ssp-panel-copy">
+                    <h3>Systems that<br><em>run themselves.</em></h3>
+                    <p>From customer support routing to document processing, we build workflows that handle the volume, adapt to edge cases, and escalate only when humans are truly needed.</p>
+                    <a href="#contact" class="ssp-cta">Start a project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Products Section -->
+    <section id="products" class="product-showcase-v2">
         <div class="container">
+            <!-- Section Header -->
             <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">What We Build</h2>
-                <p class="section-subtitle">AI-powered solutions for real business problems</p>
+                <h2>What We've Built</h2>
+                <p>Our own products and selected client work.</p>
             </div>
-            
-            <div class="services-grid">
-                <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="service-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3 class="service-title">AI Solutions</h3>
-                    <p class="service-description">
-                        Intelligent systems that automate decisions, understand language, 
-                        and bring AI capabilities to your business operations.
-                    </p>
+
+            <!-- ClashArena Block -->
+            <div class="product-row clasharena-block" data-aos="fade-up" data-aos-delay="100">
+                <div class="product-info">
+                    <span class="product-label">Client Work</span>
+                    <h3>ClashArena</h3>
+                    <p>A competitive gaming platform we engineered end-to-end for a client. Built for high-performance real-time interaction, it handles massive concurrent connections with low-latency matchmaking and live session management.</p>
+                    <a href="#contact" class="btn btn-secondary">Build Something Like This</a>
                 </div>
-                
-                <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="service-icon">
-                        <i class="fas fa-code"></i>
+                <!-- ClashArena: Browser Mockup + Live Metrics -->
+                <div class="product-gallery">
+                    <div class="browser-mockup" data-aos="fade-left" data-aos-duration="900">
+                        <!-- Browser chrome bar -->
+                        <div class="bm-chrome">
+                            <span class="bm-dot bm-red"></span>
+                            <span class="bm-dot bm-yellow"></span>
+                            <span class="bm-dot bm-green"></span>
+                            <div class="bm-url">clasharena.gg/live</div>
+                        </div>
+                        <!-- Screenshot -->
+                        <div class="bm-screen">
+                            <img src="images/product images/clasharena/Screenshot (601).png" alt="ClashArena Platform">
+                        </div>
+                        <!-- Floating live metric badges -->
+                        <div class="bm-badge badge-tl">
+                            <span class="bm-badge-dot"></span>
+                            <span id="ca-players">1,247 Online</span>
+                        </div>
+                        <div class="bm-badge badge-tr">
+                            <i class="fas fa-bolt"></i>
+                            <span id="ca-latency">11ms</span>
+                        </div>
+                        <div class="bm-badge badge-br">
+                            <i class="fas fa-trophy"></i>
+                            <span>Match Active</span>
+                        </div>
                     </div>
-                    <h3 class="service-title">Custom Software</h3>
-                    <p class="service-description">
-                        Web applications, APIs, and internal tools built with 
-                        intelligence baked in from the start.
-                    </p>
-                </div>
-                
-                <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="service-title">Data Intelligence</h3>
-                    <p class="service-description">
-                        Transform your data into insights. Predictive analytics, 
-                        dashboards, and systems that learn from your information.
-                    </p>
-                </div>
-                
-                <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="service-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3 class="service-title">Intelligent Automation</h3>
-                    <p class="service-description">
-                        Workflows that think. Automate complex processes with 
-                        AI that adapts and improves over time.
-                    </p>
                 </div>
             </div>
+
+            <!-- Qrika Block -->
+            <div class="product-row qrika-block reverse" data-aos="fade-up" data-aos-delay="200">
+                <div class="product-info">
+                    <span class="product-label">Our Product</span>
+                    <h3 class="qrika-title">
+                        <img src="images/qrika-logo.png" alt="Qrika" class="qrika-inline-logo">
+                        Qrika
+                    </h3>
+                    <p>Nigeria's peer-to-peer resale marketplace — where people buy and sell pre-loved items, from fashion and phones to furniture and books. Built for the African market, bringing real people, real goods, and real value together.</p>
+                    <a href="https://qrika.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Explore Qrika</a>
+                </div>
+                <!-- Qrika: Browser Mockup Carousel -->
+                <div class="product-gallery">
+                    <div class="browser-mockup qrika-mockup" id="qrika-mockup">
+                        <!-- Browser chrome -->
+                        <div class="bm-chrome">
+                            <span class="bm-dot bm-red"></span>
+                            <span class="bm-dot bm-yellow"></span>
+                            <span class="bm-dot bm-green"></span>
+                            <div class="bm-url">qrika.app</div>
+                        </div>
+                        <!-- Sliding screen -->
+                        <div class="bm-screen qrika-carousel-track" id="qrika-track">
+                            <img src="images/product images/qrika/Screenshot (605).png" alt="Qrika Home" class="qrika-slide active">
+                            <img src="images/product images/qrika/Screenshot (603).png" alt="Qrika Browse" class="qrika-slide">
+                            <img src="images/product images/qrika/Screenshot (604).png" alt="Qrika Listing" class="qrika-slide">
+                            <img src="images/product images/qrika/Screenshot (602).png" alt="Qrika Detail" class="qrika-slide">
+                        </div>
+                        <!-- Slide dot indicators -->
+                        <div class="qrika-dots" id="qrika-dots">
+                            <span class="qrika-dot active"></span>
+                            <span class="qrika-dot"></span>
+                            <span class="qrika-dot"></span>
+                            <span class="qrika-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </section>
 
     <!-- GitHub / Open Source Section -->
-    <section id="github" class="github">
+    <section id="github" class="github dotted-grid">
         <div class="container">
-            <div class="github-showcase">
-                <div class="github-icon-large" data-aos="zoom-in" data-aos-delay="100">
-                    <i class="fab fa-github"></i>
-                </div>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="200">Open Source</h2>
-                <p class="github-tagline" data-aos="fade-up" data-aos-delay="300">
-                    We share what we build. Check out our projects and contributions.
-                </p>
-                <a href="https://github.com/TechLegion" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fab fa-github"></i>
-                    <span>View GitHub</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Founder Section -->
-    <section class="founder">
-        <!-- Animated Rings -->
-        <div class="animated-rings">
-            <div class="ring ring-1"></div>
-            <div class="ring ring-2"></div>
-            <div class="ring ring-3"></div>
-        </div>
-        <div class="container">
-            <div class="founder-content">
-                <div class="founder-image" data-aos="zoom-in" data-aos-delay="100">
-                    <img src="images/displayed.png" alt="Samuel Okorie - Founder & CEO" class="founder-photo">
-                </div>
-                <div class="founder-info" data-aos="fade-left" data-aos-delay="200">
-                    <span class="founder-label">Founder & CEO</span>
-                    <h2 class="founder-name">Samuel Okorie</h2>
-                    <p class="founder-bio">
-                        An AI engineer and software developer passionate about building intelligent systems 
-                        that solve real problems. With expertise in AI automation and full-stack development, 
-                        Samuel founded TekLegion to create software that makes a meaningful difference.
+            <div class="github-grid">
+                <div class="github-content" data-aos="fade-right">
+                    <span class="section-kicker">Collaboration</span>
+                    <div class="github-icon-large">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h2 class="section-title">Engineering Openly</h2>
+                    <p class="github-tagline">
+                        We share what we build. Check out our projects and contributions.
                     </p>
-                    <div class="founder-social" data-aos="fade-up" data-aos-delay="400">
-                        <a href="https://github.com/TechLegion" target="_blank" rel="noopener noreferrer" class="social-link">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/company/teklegion" target="_blank" rel="noopener noreferrer" class="social-link">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://x.com/teklegion" target="_blank" rel="noopener noreferrer" class="social-link">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+                    <a href="https://github.com/TechLegion" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                        <i class="fab fa-github"></i>
+                        <span>View GitHub</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="github-visual" data-aos="fade-left">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <span class="terminal-button close"></span>
+                            <span class="terminal-button minimize"></span>
+                            <span class="terminal-button expand"></span>
+                            <span class="terminal-title">bash - teklegion@ai</span>
+                        </div>
+                        <div class="terminal-body" id="terminal-body">
+                            <div class="terminal-line"><span class="terminal-prompt">teklegion@desktop:~$</span> <span class="typed-text"></span><span class="terminal-cursor"></span></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+
+
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact dotted-grid">
         <!-- Animated Gradient Blob -->
         <div class="gradient-blob"></div>
         <div class="container">
             <div class="section-header" data-aos="fade-up">
+                <span class="section-kicker">Get in Touch</span>
                 <h2 class="section-title">Let's Talk</h2>
                 <p class="section-subtitle">Have a project in mind? We'd love to hear about it.</p>
             </div>
@@ -367,7 +495,7 @@
                         </div>
                         <div class="contact-details">
                             <h3>Phone</h3>
-                            <p>+234 70-1968-3215</p>
+                            <p>2348107429870</p>
                         </div>
                     </div>
                     
@@ -429,14 +557,18 @@
         </div>
     </section>
 
+    <!-- 3D Particle Wave Section Separator -->
+    <div class="wave-separator">
+        <canvas id="wave-canvas"></canvas>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <img src="images/TekLegion logo.png" alt="TekLegion Logo" class="footer-logo-image">
-                        <span>TekLegion</span>
+                        <img src="images/TekLegion_emblem_only.png" alt="TekLegion" class="footer-logo-image">
                     </div>
                     <p>Growing IT firm delivering modern solutions for businesses worldwide</p>
             </div>
@@ -446,8 +578,9 @@
                 <h3>Quick Links</h3>
                 <ul>
                             <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
+                            <li><a href="about.html">About</a></li>
                             <li><a href="#services">Services</a></li>
+                            <li><a href="#products">Products</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -466,7 +599,7 @@
                 <h3>Contact</h3>
                         <ul>
                             <li>techlegion01@gmail.com</li>
-                            <li>+234 70-1968-3215</li>
+                            <li>2348107429870</li>
                             <li>Lagos, Nigeria</li>
                         </ul>
                     </div>
@@ -481,6 +614,11 @@
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="cursor-ripple.js"></script>
+    <script src="hero-3d.js"></script>
+    <script src="wave-3d.js"></script>
+    <script src="about-3d.js"></script>
     <script src="script.js?v=20251027"></script>
 </body>
 </html>

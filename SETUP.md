@@ -141,7 +141,7 @@ curl -X POST http://localhost:5000/api/contact \
 
 If you need help:
 - Email: techlegion01@gmail.com
-- Phone: +234 70-1968-3215
+- Phone: 2348107429870
 
 ## 🎉 Congratulations!
 

@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initSkillBars();
     initContactForm();
     initParallaxEffects();
-    initTypingAnimation();
-    initParticleEffects();
     initSmoothScrolling();
+    init3dTilt();
+    initTerminalSimulation();
+    initCardStackFan();
     
     // Initialize AOS (Animate On Scroll)
     if (typeof AOS !== 'undefined') {
@@ -385,7 +386,7 @@ function createFloatingParticle() {
         position: absolute;
         width: ${size}px;
         height: ${size}px;
-        background: rgba(99, 102, 241, 0.6);
+        background: rgba(55, 48, 163, 0.6);
         border-radius: 50%;
         left: ${startX}px;
         top: ${startY}px;
@@ -649,6 +650,143 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// ===== 3D CARD TILT SHIMMER EFFECT =====
+function init3dTilt() {
+    const cards = document.querySelectorAll('.service-card');
+    
+    cards.forEach(card => {
+        const glare = card.querySelector('.card-glare');
+        
+        card.addEventListener('mouseenter', () => {
+            // Remove reset transitions to prevent delay on tilt
+            card.style.transition = 'none';
+            if (glare) {
+                glare.style.opacity = '1';
+                glare.style.transition = 'none';
+            }
+        });
+        
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; // x coordinate within the element
+            const y = e.clientY - rect.top;  // y coordinate within the element
+            
+            const xc = rect.width / 2;
+            const yc = rect.height / 2;
+            
+            // Calculate tilt angle based on distance from center
+            // Max tilt of 8 degrees to keep it professional
+            const rotateY = ((x - xc) / xc) * 8;
+            const rotateX = -((y - yc) / yc) * 8;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            
+            // Move glare spotlight coordinate
+            if (glare) {
+                glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(55, 48, 163, 0.08) 0%, transparent 65%)`;
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            // Add reset transition back smoothly
+            card.style.transition = 'transform 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease';
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            
+            if (glare) {
+                glare.style.transition = 'opacity 0.5s ease';
+                glare.style.opacity = '0';
+            }
+        });
+    });
+}
+
+// ===== GITHUB TERMINAL SIMULATION =====
+function initTerminalSimulation() {
+    const terminalBody = document.getElementById('terminal-body');
+    if (!terminalBody) return;
+    
+    const lines = [
+        { type: 'command', text: 'teklegion compile --target=intelligence' },
+        { type: 'info', text: '[INFO] Initializing cognitive architecture...' },
+        { type: 'info', text: '[INFO] Loading synaptic neural nodes...' },
+        { type: 'info', text: '[INFO] Syncing TekLegion Core API (localhost:5000)...' },
+        { type: 'output', text: '[SUCCESS] Dynamic model compiled successfully.' },
+        { type: 'command', text: 'teklegion status' },
+        { type: 'output', text: 'System: Active | CPU: 14% | Neural Load: Optimal' },
+        { type: 'command', text: 'git push origin main' },
+        { type: 'info', text: 'Enumerating objects: 12, done.' },
+        { type: 'info', text: 'Writing objects: 100% (12/12), 2.45 KiB | 2.45 MiB/s, done.' },
+        { type: 'output', text: 'To github.com/TechLegion/Core.git\n   a3b82f6..2563eb  main -> main' },
+        { type: 'command', text: 'clear' }
+    ];
+    
+    let currentLineIndex = 0;
+    
+    function appendLine(type, text, callback) {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = `terminal-line ${type}`;
+        
+        if (type === 'command') {
+            const promptSpan = document.createElement('span');
+            promptSpan.className = 'terminal-prompt';
+            promptSpan.textContent = 'teklegion@desktop:~$ ';
+            lineDiv.appendChild(promptSpan);
+            
+            const textSpan = document.createElement('span');
+            lineDiv.appendChild(textSpan);
+            
+            const cursorSpan = document.createElement('span');
+            cursorSpan.className = 'terminal-cursor';
+            lineDiv.appendChild(cursorSpan);
+            
+            terminalBody.appendChild(lineDiv);
+            
+            // Typewriter effect for command
+            let charIndex = 0;
+            const typingInterval = setInterval(() => {
+                if (charIndex < text.length) {
+                    textSpan.textContent += text[charIndex];
+                    charIndex++;
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
+                } else {
+                    clearInterval(typingInterval);
+                    cursorSpan.remove();
+                    if (callback) setTimeout(callback, 500);
+                }
+            }, 60);
+        } else {
+            lineDiv.textContent = text;
+            terminalBody.appendChild(lineDiv);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+            if (callback) setTimeout(callback, 400);
+        }
+    }
+    
+    function runSimulation() {
+        if (currentLineIndex >= lines.length) {
+            currentLineIndex = 0;
+        }
+        
+        const line = lines[currentLineIndex];
+        
+        if (line.text === 'clear') {
+            setTimeout(() => {
+                terminalBody.innerHTML = '';
+                currentLineIndex++;
+                runSimulation();
+            }, 1500);
+            return;
+        }
+        
+        appendLine(line.type, line.text, () => {
+            currentLineIndex++;
+            runSimulation();
+        });
+    }
+    
+    setTimeout(runSimulation, 1000);
+}
+
 // ===== EXPORT FOR TESTING =====
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
@@ -660,3 +798,298 @@ if (typeof module !== 'undefined' && module.exports) {
         animateCounters
     };
 }
+
+// ===== QRIKA CARD STACK FAN-OUT =====
+function initCardStackFan() {
+    const stack = document.getElementById('qrika-stack');
+    if (!stack) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    stack.classList.add('is-visible');
+                }, 400);
+                observer.unobserve(stack);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    observer.observe(stack);
+
+    stack.addEventListener('mouseenter', () => stack.classList.add('is-visible'));
+    stack.addEventListener('mouseleave', () => {
+        stack.classList.remove('is-visible');
+    });
+}
+
+// ===== CLASHARENA LIVE METRICS TICKER =====
+(function initClashArenaMetrics() {
+    const playersEl = document.getElementById('ca-players');
+    const latencyEl = document.getElementById('ca-latency');
+    if (!playersEl || !latencyEl) return;
+
+    function randomBetween(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    let players = 1247;
+    setInterval(() => {
+        players += randomBetween(-8, 12);
+        players = Math.max(900, Math.min(2000, players));
+        playersEl.textContent = players.toLocaleString() + ' Online';
+
+        const ms = randomBetween(8, 18);
+        latencyEl.textContent = ms + 'ms';
+    }, 2200);
+})();
+
+// ===== AI PIPELINE WIDGET LIVE TICKER =====
+(function initAIPipelineWidget() {
+    const latencyEl  = document.getElementById('apw-latency');
+    const throughEl  = document.getElementById('apw-throughput');
+    const liveLineEl = document.getElementById('apw-live-line');
+    if (!latencyEl) return;
+
+    const logMessages = [
+        'Inference running...',
+        'Embedding vectors ✓',
+        'Classification done ✓',
+        'Response generated ✓',
+        'Caching result ✓',
+        'Next batch queued...',
+    ];
+    let logIdx = 0;
+
+    setInterval(() => {
+        const ms = Math.floor(Math.random() * 30) + 38;
+        latencyEl.textContent = ms + 'ms';
+
+        const rps = (3000 + Math.floor(Math.random() * 500)).toLocaleString();
+        throughEl.textContent = rps + ' req/s';
+
+        if (liveLineEl) {
+            logIdx = (logIdx + 1) % logMessages.length;
+            const ts = new Date();
+            const hh = String(ts.getHours()).padStart(2,'0');
+            const mm = String(ts.getMinutes()).padStart(2,'0');
+            const ss = String(ts.getSeconds()).padStart(2,'0');
+            liveLineEl.innerHTML = `<span class="apw-ts">[${hh}:${mm}:${ss}]</span> ${logMessages[logIdx]}`;
+        }
+    }, 1800);
+})();
+
+// ===== SERVICES BENTO: MINI NEURAL CANVAS =====
+(function initServiceNeuralCanvas() {
+    const canvas = document.getElementById('sb-neural-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const nodeCount = 20;
+    const nodes = Array.from({ length: nodeCount }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        r: Math.random() * 3 + 2,
+        pulse: Math.random() * Math.PI * 2
+    }));
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw edges
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dx = nodes[i].x - nodes[j].x;
+                const dy = nodes[i].y - nodes[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(nodes[i].x, nodes[i].y);
+                    ctx.lineTo(nodes[j].x, nodes[j].y);
+                    ctx.strokeStyle = `rgba(99,102,241,${0.25 * (1 - dist / 120)})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Draw nodes
+        nodes.forEach(n => {
+            n.pulse += 0.04;
+            const glowSize = n.r + Math.sin(n.pulse) * 2;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, glowSize, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(99,102,241,0.8)';
+            ctx.fill();
+
+            // Move
+            n.x += n.vx;
+            n.y += n.vy;
+            if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+            if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+        });
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+// ===== SERVICES SPOTLIGHT =====
+(function initServicesSpotlight() {
+    const tabs   = document.querySelectorAll('.ssp-tab');
+    const panels = document.querySelectorAll('.ssp-panel');
+    if (!tabs.length) return;
+
+    let autoTimer = null;
+
+    function activateTab(panel) {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+
+        const tab = document.querySelector(`.ssp-tab[data-panel="${panel}"]`);
+        const pnl = document.querySelector(`.ssp-panel[data-panel="${panel}"]`);
+        if (!tab || !pnl) return;
+
+        // Force reflow to restart the tab-bar CSS transition
+        const bar = tab.querySelector('.ssp-tab-bar');
+        if (bar) { bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = ''; }
+
+        tab.classList.add('active');
+        pnl.classList.add('active');
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            clearInterval(autoTimer);
+            activateTab(tab.dataset.panel);
+            startAuto(tab.dataset.panel);
+        });
+    });
+
+    function startAuto(startPanel) {
+        const order = ['ai','software','data','automation'];
+        let idx = order.indexOf(startPanel);
+        autoTimer = setInterval(() => {
+            idx = (idx + 1) % order.length;
+            activateTab(order[idx]);
+        }, 5000);
+    }
+
+    activateTab('ai');
+    startAuto('ai');
+
+    // Neural canvas for AI panel
+    const nc = document.getElementById('ssp-neural');
+    if (nc) {
+        const ctx = nc.getContext('2d');
+        function resize() { nc.width = nc.offsetWidth; nc.height = nc.offsetHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const nodes = Array.from({ length: 28 }, () => ({
+            x: Math.random() * nc.width,
+            y: Math.random() * nc.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            r: Math.random() * 3 + 2,
+            pulse: Math.random() * Math.PI * 2
+        }));
+
+        function drawNeural() {
+            ctx.clearRect(0, 0, nc.width, nc.height);
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(99,102,241,${0.3*(1-d/130)})`;
+                        ctx.lineWidth = 1; ctx.stroke();
+                    }
+                }
+            }
+            nodes.forEach(n => {
+                n.pulse += 0.035;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.r + Math.sin(n.pulse)*1.5, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(99,102,241,0.85)'; ctx.fill();
+                n.x += n.vx; n.y += n.vy;
+                if (n.x < 0 || n.x > nc.width)  n.vx *= -1;
+                if (n.y < 0 || n.y > nc.height) n.vy *= -1;
+            });
+            requestAnimationFrame(drawNeural);
+        }
+        drawNeural();
+    }
+
+    // Sparkline for Data panel
+    const linePath = document.getElementById('ssp-line');
+    const areaPath = document.getElementById('ssp-area');
+    if (linePath) {
+        const W = 400, H = 140;
+        let pts = Array.from({ length: 20 }, (_, i) => ({
+            x: (i / 19) * W,
+            y: H - (Math.random() * 0.6 + 0.2) * H
+        }));
+
+        function buildPath(points) {
+            return points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+        }
+
+        function updateSparkline() {
+            pts.shift();
+            pts.push({ x: W, y: H - (Math.random() * 0.6 + 0.2) * H });
+            pts.forEach((p, i) => p.x = (i / (pts.length - 1)) * W);
+            const d = buildPath(pts);
+            linePath.setAttribute('d', d);
+            areaPath.setAttribute('d', d + ` L${W},${H} L0,${H} Z`);
+        }
+
+        setInterval(updateSparkline, 900);
+        updateSparkline();
+    }
+})();
+
+// ===== QRIKA BROWSER CAROUSEL =====
+(function initQrikaCarousel() {
+    const slides = document.querySelectorAll('.qrika-slide');
+    const dots   = document.querySelectorAll('.qrika-dot');
+    if (!slides.length) return;
+
+    let current = 0;
+    let timer = null;
+
+    function goTo(idx) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (idx + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+
+    function startAuto() {
+        timer = setInterval(() => goTo(current + 1), 3500);
+    }
+
+    // Dot click
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            clearInterval(timer);
+            goTo(i);
+            startAuto();
+        });
+    });
+
+    startAuto();
+})();
