@@ -46,74 +46,67 @@ class EmailService {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body style="margin: 0; padding: 0; background-color: #0a0a0f; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0f; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #111118; border-radius: 8px; border: 1px solid #1e1e2e;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05); overflow: hidden;">
                   
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 32px 40px; border-bottom: 1px solid #1e1e2e;">
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td>
-                            <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion" width="40" height="40" style="border-radius: 8px; vertical-align: middle;" />
-                            <span style="color: #ffffff; font-size: 18px; font-weight: 600; margin-left: 12px; vertical-align: middle;">TekLegion</span>
-                          </td>
-                        </tr>
-                      </table>
+                    <td align="center" style="padding: 40px 40px 30px 40px; border-bottom: 1px solid #f1f5f9;">
+                      <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="220" style="display: block; border: 0; outline: none; height: auto;" />
                     </td>
                   </tr>
                   
                   <!-- Content -->
                   <tr>
                     <td style="padding: 40px;">
-                      <h1 style="color: #ffffff; font-size: 24px; font-weight: 600; margin: 0 0 8px 0;">New Contact Submission</h1>
-                      <p style="color: #71717a; font-size: 14px; margin: 0 0 32px 0;">${date}</p>
+                      <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 8px 0;">New Contact Submission</h1>
+                      <p style="color: #64748b; font-size: 14px; margin: 0 0 28px 0;">${date}</p>
                       
                       <!-- Contact Info -->
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0f; border-radius: 6px; margin-bottom: 24px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 28px; border-collapse: separate;">
                         <tr>
-                          <td style="padding: 24px;">
+                          <td style="padding: 20px;">
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                               <tr>
-                                <td style="padding-bottom: 16px; border-bottom: 1px solid #1e1e2e;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Name</span>
-                                  <p style="color: #ffffff; font-size: 15px; margin: 4px 0 0 0;">${contactData.name}</p>
+                                <td style="padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Name</span>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.name}</p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding: 16px 0; border-bottom: 1px solid #1e1e2e;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
-                                  <p style="margin: 4px 0 0 0;"><a href="mailto:${contactData.email}" style="color: #818cf8; font-size: 15px; text-decoration: none;">${contactData.email}</a></p>
+                                <td style="padding: 14px 0; border-bottom: 1px solid #e2e8f0;">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
+                                  <p style="margin: 4px 0 0 0;"><a href="mailto:${contactData.email}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${contactData.email}</a></p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding: 16px 0; border-bottom: 1px solid #1e1e2e;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Subject</span>
-                                  <p style="color: #ffffff; font-size: 15px; margin: 4px 0 0 0;">${contactData.subject}</p>
+                                <td style="padding: 14px 0; border-bottom: 1px solid #e2e8f0;">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Subject</span>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.subject}</p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding-top: 16px;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Project Size</span>
-                                  <p style="color: #ffffff; font-size: 15px; margin: 4px 0 0 0;">${this.getBudgetDisplay(contactData.budget)}</p>
+                                <td style="padding: 14px 0; ${contactData.company || contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Project Size</span>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${this.getBudgetDisplay(contactData.budget)}</p>
                                 </td>
                               </tr>
                               ${contactData.company ? `
                               <tr>
-                                <td style="padding-top: 16px; border-top: 1px solid #1e1e2e; margin-top: 16px;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Company</span>
-                                  <p style="color: #ffffff; font-size: 15px; margin: 4px 0 0 0;">${contactData.company}</p>
+                                <td style="padding: 14px 0; ${contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Company</span>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.company}</p>
                                 </td>
                               </tr>
                               ` : ''}
                               ${contactData.phone ? `
                               <tr>
-                                <td style="padding-top: 16px; border-top: 1px solid #1e1e2e;">
-                                  <span style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Phone</span>
-                                  <p style="margin: 4px 0 0 0;"><a href="tel:${contactData.phone}" style="color: #818cf8; font-size: 15px; text-decoration: none;">${contactData.phone}</a></p>
+                                <td style="padding-top: 14px;">
+                                  <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Phone</span>
+                                  <p style="margin: 4px 0 0 0;"><a href="tel:${contactData.phone}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${contactData.phone}</a></p>
                                 </td>
                               </tr>
                               ` : ''}
@@ -123,17 +116,17 @@ class EmailService {
                       </table>
                       
                       <!-- Message -->
-                      <h2 style="color: #ffffff; font-size: 14px; font-weight: 600; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Message</h2>
-                      <div style="background-color: #0a0a0f; border-radius: 6px; padding: 20px; border-left: 3px solid #818cf8;">
-                        <p style="color: #d4d4d8; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${contactData.message}</p>
+                      <h2 style="color: #475569; font-size: 12px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">Message</h2>
+                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3;">
+                        <p style="color: #334155; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${contactData.message}</p>
                       </div>
                       
                       <!-- Actions -->
                       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
                         <tr>
                           <td>
-                            <a href="mailto:${contactData.email}?subject=Re: ${contactData.subject}" style="display: inline-block; background-color: #818cf8; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500;">Reply to ${contactData.name.split(' ')[0]}</a>
-                            ${contactData.phone ? `<a href="tel:${contactData.phone}" style="display: inline-block; background-color: transparent; color: #818cf8; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; border: 1px solid #818cf8; margin-left: 12px;">Call</a>` : ''}
+                            <a href="mailto:${contactData.email}?subject=Re: ${contactData.subject}" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">Reply to ${contactData.name.split(' ')[0]}</a>
+                            ${contactData.phone ? `<a href="tel:${contactData.phone}" style="display: inline-block; background-color: transparent; color: #3730a3; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1.5px solid #3730a3; margin-left: 12px;">Call Client</a>` : ''}
                           </td>
                         </tr>
                       </table>
@@ -142,8 +135,8 @@ class EmailService {
                   
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 24px 40px; border-top: 1px solid #1e1e2e;">
-                      <p style="color: #52525b; font-size: 12px; margin: 0;">TekLegion Contact Form Notification</p>
+                    <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                      <p style="color: #64748b; font-size: 12px; margin: 0;">TekLegion Contact Form System • Lagos, Nigeria</p>
                     </td>
                   </tr>
                   
@@ -190,6 +183,8 @@ class EmailService {
         day: 'numeric'
       });
 
+      const isReply = contactData.message && contactData.message.trim().length > 0;
+
       const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -198,82 +193,70 @@ class EmailService {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Thank you for contacting TekLegion</title>
         </head>
-        <body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#0a0a0f" style="background-color: #0a0a0f;">
+        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px;">
             <tr>
-              <td align="center" style="padding: 40px 20px;">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#111118" style="background-color: #111118; border-radius: 8px; max-width: 600px;">
+              <td align="center">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05); overflow: hidden; max-width: 600px;">
                   
                   <!-- Header with Logo -->
                   <tr>
-                    <td align="center" style="padding: 40px 40px 30px 40px;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td align="center">
-                            <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="50" height="50" style="display: block; border: 0; border-radius: 8px;" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center" style="padding-top: 16px;">
-                            <span style="color: #ffffff; font-size: 20px; font-weight: bold;">TekLegion</span>
-                          </td>
-                        </tr>
-                      </table>
+                    <td align="center" style="padding: 40px 40px 30px 40px; border-bottom: 1px solid #f1f5f9;">
+                      <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="220" style="display: block; border: 0; outline: none; height: auto;" />
                     </td>
                   </tr>
                   
                   <!-- Main Content -->
                   <tr>
-                    <td style="padding: 0 40px 40px 40px;">
+                    <td style="padding: 40px;">
                       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        ${isReply ? `
+                        <!-- Admin Response View -->
                         <tr>
                           <td>
-                            <h1 style="color: #ffffff; font-size: 22px; font-weight: bold; margin: 0 0 24px 0; text-align: center;">Thank you for reaching out</h1>
+                            <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 16px 0;">Response to Your Inquiry</h1>
+                            <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 20px 0;">Hi ${contactData.name.split(' ')[0]},</p>
+                            
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3; border-radius: 8px; padding: 24px; margin-bottom: 28px;">
+                              <p style="color: #334155; font-size: 15px; line-height: 1.7; margin: 0; white-space: pre-wrap;">${contactData.message}</p>
+                            </div>
                           </td>
                         </tr>
+                        ` : `
+                        <!-- Standard Auto-Confirmation View -->
                         <tr>
-                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 20px;">
-                            Hi ${contactData.name.split(' ')[0]},
+                          <td>
+                            <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 16px 0; text-align: center;">Thank You for Reaching Out</h1>
+                            <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 20px 0;">Hi ${contactData.name.split(' ')[0]},</p>
+                            <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 24px 0;">We have received your message regarding <strong style="color: #0f172a;">"${contactData.subject}"</strong>. Our team is excited to learn more about your project and see how we can assist you.</p>
+                            
+                            <!-- What's Next Box -->
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3; border-radius: 8px; padding: 20px; margin-bottom: 28px;">
+                              <p style="color: #3730a3; font-size: 11px; font-weight: 700; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
+                              <p style="color: #475569; font-size: 14px; line-height: 22px; margin: 0;">Our specialists will review your details and prepare a response. You can expect to hear from us within 24 business hours.</p>
+                            </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 24px;">
-                            We have received your inquiry regarding <strong style="color: #ffffff;">"${contactData.subject}"</strong> and appreciate you taking the time to contact us.
-                          </td>
-                        </tr>
+                        `}
                         
-                        <!-- What's Next Box -->
+                        <!-- Inquiry Reference Details -->
                         <tr>
-                          <td style="padding-bottom: 24px;">
-                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#1a1a24" style="background-color: #1a1a24; border-radius: 6px; border-left: 3px solid #818cf8;">
+                          <td>
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
                               <tr>
                                 <td style="padding: 20px;">
-                                  <p style="color: #818cf8; font-size: 12px; font-weight: bold; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
-                                  <p style="color: #a1a1aa; font-size: 14px; line-height: 22px; margin: 0;">Our team will review your message and respond within 24-48 business hours with a detailed response tailored to your needs.</p>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                        
-                        <!-- Inquiry Summary -->
-                        <tr>
-                          <td style="padding-bottom: 24px;">
-                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#1a1a24" style="background-color: #1a1a24; border-radius: 6px;">
-                              <tr>
-                                <td style="padding: 20px;">
-                                  <p style="color: #818cf8; font-size: 12px; font-weight: bold; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1px;">Your inquiry</p>
+                                  <p style="color: #475569; font-size: 11px; font-weight: 700; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1px;">Inquiry Details</p>
                                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                     <tr>
-                                      <td style="padding-bottom: 12px;">
-                                        <p style="color: #71717a; font-size: 12px; margin: 0 0 4px 0;">Subject</p>
-                                        <p style="color: #ffffff; font-size: 14px; margin: 0;">${contactData.subject}</p>
+                                      <td style="padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Subject</p>
+                                        <p style="color: #0f172a; font-size: 14px; font-weight: 500; margin: 0;">${contactData.subject}</p>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td style="padding-top: 12px; border-top: 1px solid #2a2a3a;">
-                                        <p style="color: #71717a; font-size: 12px; margin: 0 0 4px 0;">Submitted</p>
-                                        <p style="color: #ffffff; font-size: 14px; margin: 0;">${date}</p>
+                                      <td style="padding-top: 12px;">
+                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Date Submitted</p>
+                                        <p style="color: #0f172a; font-size: 14px; font-weight: 500; margin: 0;">${date}</p>
                                       </td>
                                     </tr>
                                   </table>
@@ -284,13 +267,14 @@ class EmailService {
                         </tr>
                         
                         <tr>
-                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px; padding-bottom: 24px;">
-                            For urgent matters, you can reach us directly at <a href="tel:+2347019683215" style="color: #818cf8; text-decoration: none;">2348107429870</a>.
+                          <td style="color: #475569; font-size: 14px; line-height: 24px; padding: 24px 0 0 0;">
+                            Have any immediate questions? Connect with us at <a href="mailto:techlegion01@gmail.com" style="color: #3730a3; text-decoration: none; font-weight: 600;">techlegion01@gmail.com</a> or call <a href="tel:+2347019683215" style="color: #3730a3; text-decoration: none; font-weight: 600;">2348107429870</a>.
                           </td>
                         </tr>
+                        
                         <tr>
-                          <td style="color: #d4d4d8; font-size: 15px; line-height: 24px;">
-                            Best regards,<br><strong style="color: #ffffff;">The TekLegion Team</strong>
+                          <td style="color: #475569; font-size: 14px; line-height: 24px; padding: 20px 0 0 0;">
+                            Best regards,<br><strong style="color: #0f172a;">The TekLegion Team</strong>
                           </td>
                         </tr>
                       </table>
@@ -299,15 +283,9 @@ class EmailService {
                   
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 24px 40px; border-top: 1px solid #1e1e2e;">
-                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td align="center">
-                            <p style="color: #52525b; font-size: 12px; margin: 0;">TekLegion - AI & Software Development</p>
-                            <p style="color: #52525b; font-size: 12px; margin: 8px 0 0 0;"><a href="https://teklegion.org" style="color: #71717a; text-decoration: none;">teklegion.org</a></p>
-                          </td>
-                        </tr>
-                      </table>
+                    <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                      <p style="color: #64748b; font-size: 12px; margin: 0;">TekLegion • AI & Software Development</p>
+                      <p style="color: #64748b; font-size: 12px; margin: 8px 0 0 0;"><a href="https://teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">teklegion.org</a></p>
                     </td>
                   </tr>
                   
