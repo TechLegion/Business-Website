@@ -155,7 +155,7 @@ class EmailService {
 
       const result = await this.resend.emails.send({
         from: 'TekLegion <contact@teklegion.org>',
-        to: process.env.CONTACT_EMAIL || 'techlegion01@gmail.com',
+        to: ['techlegion01@gmail.com', 'sammyokorie0@gmail.com', 'samuel@teklegion.org'],
         subject: `New Contact Form Submission: ${contactData.subject}`,
         html: html
       });
@@ -268,7 +268,7 @@ class EmailService {
                         
                         <tr>
                           <td style="color: #475569; font-size: 14px; line-height: 24px; padding: 24px 0 0 0;">
-                            Have any immediate questions? Connect with us at <a href="mailto:techlegion01@gmail.com" style="color: #3730a3; text-decoration: none; font-weight: 600;">techlegion01@gmail.com</a> or call <a href="tel:+2347019683215" style="color: #3730a3; text-decoration: none; font-weight: 600;">2348107429870</a>.
+                            Have any immediate questions? Connect with us at <a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 600;">contact@teklegion.org</a> or call <a href="tel:+2347019683215" style="color: #3730a3; text-decoration: none; font-weight: 600;">2348107429870</a>.
                           </td>
                         </tr>
                         
