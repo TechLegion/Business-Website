@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TekLegion Email Template Preview</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1e293b;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;
+    }
+    .preview-header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      color: #f8fafc;
+    }
+    .preview-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+    .preview-header p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin: 0;
+    }
+    .preview-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+    }
+    .preview-tabs button {
+      padding: 10px 24px;
+      border: 1.5px solid #3730a3;
+      border-radius: 8px;
+      background: transparent;
+      color: #a5b4fc;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preview-tabs button.active {
+      background: #3730a3;
+      color: #ffffff;
+    }
+    .preview-tabs button:hover {
+      background: #3730a3;
+      color: #ffffff;
+    }
+    .email-container {
+      max-width: 700px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+    .email-label {
+      color: #94a3b8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+    .email-frame {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="preview-header">
+  <h1>📧 Email Template Preview</h1>
+  <p>Preview how your emails look without deploying</p>
+</div>
+
+<div class="preview-tabs">
+  <button class="active" onclick="showTab('confirmation')">User Confirmation</button>
+  <button onclick="showTab('admin')">Admin Notification</button>
+</div>
+
+<!-- ==================== USER CONFIRMATION EMAIL ==================== -->
+<div id="confirmation" class="email-container">
+  <div class="email-label">Sent to: customer after submitting the contact form</div>
+  <div class="email-frame">
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; overflow: hidden; max-width: 600px;">
+            
+            <!-- Header with Logo & Tagline -->
+            <tr>
+              <td align="center" style="padding: 36px 40px 24px 40px; border-bottom: 1px solid #e2e8f0;">
+                <img src="images/TekLegion_dark_for_light_theme.png" alt="TekLegion Labs" width="180" style="display: block; border: 0; outline: none; height: auto;" />
+                <p style="color: #64748b; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin: 14px 0 0 0;">Building Intelligent Software</p>
+              </td>
+            </tr>
+            
+            <!-- Reference Number Bar -->
+            <tr>
+              <td style="padding: 12px 40px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                <p style="color: #94a3b8; font-size: 11px; font-weight: 600; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Reference: <span style="color: #3730a3; font-family: 'Courier New', Courier, monospace;">TK-20260707-1843</span></p>
+              </td>
+            </tr>
+            
+            <!-- Main Content -->
+            <tr>
+              <td style="padding: 40px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  
+                  <!-- Standard Auto-Confirmation View -->
+                  <tr>
+                    <td>
+                      <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 20px 0; text-align: center;">We've Received Your Enquiry</h1>
+                      <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 20px 0;">Hi John,</p>
+                      <p style="color: #334155; font-size: 16px; line-height: 26px; margin: 0 0 24px 0;">We've received your enquiry and one of our engineers will review it shortly. You can expect a response within one business day.</p>
+                      
+                      <!-- What's Next Box -->
+                      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3; border-radius: 8px; padding: 24px; margin-bottom: 28px;">
+                        <p style="color: #3730a3; font-size: 11px; font-weight: 700; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
+                        <p style="color: #475569; font-size: 15px; line-height: 24px; margin: 0;">Our team will assess your requirements and prepare a tailored response. If we need any additional information, we'll reach out directly.</p>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Inquiry Reference Details -->
+                  <tr>
+                    <td>
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <tr>
+                          <td style="padding: 24px;">
+                            <p style="color: #475569; font-size: 11px; font-weight: 700; margin: 0 0 18px 0; text-transform: uppercase; letter-spacing: 1px;">Inquiry Details</p>
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                              <tr>
+                                <td style="padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                                  <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Subject</p>
+                                  <p style="color: #475569; font-size: 14px; font-weight: 500; margin: 0; font-family: 'Courier New', Courier, monospace; background-color: #f1f5f9; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">I need a custom CRM for my logistics company</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                                  <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Reference</p>
+                                  <p style="color: #3730a3; font-size: 14px; font-weight: 600; margin: 0; font-family: 'Courier New', Courier, monospace;">TK-20260707-1843</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="padding-top: 16px;">
+                                  <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Date Submitted</p>
+                                  <p style="color: #0f172a; font-size: 14px; font-weight: 500; margin: 0;">July 7, 2026</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  
+                  <!-- CTA Button -->
+                  <tr>
+                    <td align="center" style="padding: 32px 0 0 0;">
+                      <a href="https://teklegion.org/#services" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">Explore Our Services</a>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td style="color: #475569; font-size: 15px; line-height: 26px; padding: 28px 0 0 0;">
+                      Have any immediate questions? Connect with us at <a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 600;">contact@teklegion.org</a> or call <a href="tel:+2348107429870" style="color: #3730a3; text-decoration: none; font-weight: 600;">+234 810 742 9870</a>.
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td style="color: #475569; font-size: 15px; line-height: 26px; padding: 20px 0 0 0;">
+                      Best regards,<br><strong style="color: #0f172a;">The TekLegion Team</strong>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 28px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                <p style="color: #94a3b8; font-size: 12px; font-style: italic; margin: 0 0 16px 0;">Trusted by startups and growing businesses across Africa.</p>
+                <p style="color: #0f172a; font-size: 14px; font-weight: 700; margin: 0 0 6px 0;">TekLegion Labs</p>
+                <p style="color: #64748b; font-size: 12px; margin: 0 0 12px 0;">AI &bull; Software Engineering &bull; Automation</p>
+                <p style="color: #64748b; font-size: 12px; margin: 0 0 4px 0;"><a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">contact@teklegion.org</a></p>
+                <p style="color: #64748b; font-size: 12px; margin: 0 0 14px 0;"><a href="https://teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">teklegion.org</a></p>
+                <p style="color: #94a3b8; font-size: 11px; margin: 0;">&copy; 2026 TekLegion Labs. All rights reserved.</p>
+              </td>
+            </tr>
+            
+          </table>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- ==================== ADMIN NOTIFICATION EMAIL ==================== -->
+<div id="admin" class="email-container hidden">
+  <div class="email-label">Sent to: your admin inboxes when a form is submitted</div>
+  <div class="email-frame">
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; overflow: hidden;">
+            
+            <!-- Header -->
+            <tr>
+              <td align="center" style="padding: 36px 40px 24px 40px; border-bottom: 1px solid #e2e8f0;">
+                <img src="images/TekLegion_dark_for_light_theme.png" alt="TekLegion Labs" width="180" style="display: block; border: 0; outline: none; height: auto;" />
+                <p style="color: #64748b; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin: 14px 0 0 0;">Building Intelligent Software</p>
+              </td>
+            </tr>
+            
+            <!-- Content -->
+            <tr>
+              <td style="padding: 40px;">
+                <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 8px 0;">New Contact Submission</h1>
+                <p style="color: #64748b; font-size: 14px; margin: 0 0 28px 0;">July 7, 2026, 06:43 PM</p>
+                
+                <!-- Contact Info -->
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 28px; border-collapse: separate;">
+                  <tr>
+                    <td style="padding: 24px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td style="padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Name</span>
+                            <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">John Adeyemi</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
+                            <p style="margin: 6px 0 0 0;"><a href="mailto:john@example.com" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">john@example.com</a></p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Subject</span>
+                            <p style="color: #475569; font-size: 15px; font-weight: 500; margin: 6px 0 0 0; font-family: 'Courier New', Courier, monospace; background-color: #f1f5f9; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">I need a custom CRM for my logistics company</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Project Size</span>
+                            <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">Medium Project ($20K - $100K)</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Company</span>
+                            <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">Adeyemi Logistics Ltd</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding-top: 16px;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Phone</span>
+                            <p style="margin: 6px 0 0 0;"><a href="tel:+2348012345678" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">+234 801 234 5678</a></p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                
+                <!-- Message -->
+                <h2 style="color: #475569; font-size: 12px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">Message</h2>
+                <div style="background-color: #f1f5f9; border-radius: 8px; padding: 22px; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3;">
+                  <p style="color: #334155; font-size: 15px; line-height: 1.7; margin: 0; white-space: pre-wrap; font-family: 'Courier New', Courier, monospace;">Hi there, I run a mid-size logistics company and we're looking for a custom CRM solution that integrates with our existing fleet tracking system. We need features like real-time delivery tracking, automated invoicing, and a customer portal. Would love to discuss this further with your team.</p>
+                </div>
+                
+                <!-- Actions -->
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
+                  <tr>
+                    <td>
+                      <a href="mailto:john@example.com?subject=Re: I need a custom CRM for my logistics company" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600;">Reply to John</a>
+                      <a href="tel:+2348012345678" style="display: inline-block; background-color: transparent; color: #3730a3; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1.5px solid #3730a3; margin-left: 12px;">Call Client</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 28px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                <p style="color: #0f172a; font-size: 14px; font-weight: 700; margin: 0 0 4px 0;">TekLegion Labs</p>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">Contact Form System &bull; Lagos, Nigeria</p>
+              </td>
+            </tr>
+            
+          </table>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+
+<script>
+function showTab(tab) {
+  document.getElementById('confirmation').classList.toggle('hidden', tab !== 'confirmation');
+  document.getElementById('admin').classList.toggle('hidden', tab !== 'admin');
+  document.querySelectorAll('.preview-tabs button').forEach((btn, i) => {
+    btn.classList.toggle('active', (i === 0 && tab === 'confirmation') || (i === 1 && tab === 'admin'));
+  });
+}
+</script>
+
+</body>
+</html>

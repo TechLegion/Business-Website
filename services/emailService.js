@@ -6,6 +6,17 @@ class EmailService {
     this.initializeResend();
   }
 
+  // HTML-escape user-provided content to prevent injection
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   initializeResend() {
     // Initialize Resend with API key
     if (process.env.RESEND_API_KEY) {
@@ -46,16 +57,17 @@ class EmailService {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased;">
+        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05); overflow: hidden;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; overflow: hidden;">
                   
                   <!-- Header -->
                   <tr>
-                    <td align="center" style="padding: 40px 40px 30px 40px; border-bottom: 1px solid #f1f5f9;">
-                      <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="220" style="display: block; border: 0; outline: none; height: auto;" />
+                    <td align="center" style="padding: 36px 40px 24px 40px; border-bottom: 1px solid #e2e8f0;">
+                      <img src="https://teklegion.org/images/TekLegion_dark_for_light_theme.png" alt="TekLegion Labs" width="180" style="display: block; border: 0; outline: none; height: auto;" />
+                      <p style="color: #64748b; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin: 14px 0 0 0;">Building Intelligent Software</p>
                     </td>
                   </tr>
                   
@@ -68,45 +80,45 @@ class EmailService {
                       <!-- Contact Info -->
                       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 28px; border-collapse: separate;">
                         <tr>
-                          <td style="padding: 20px;">
+                          <td style="padding: 24px;">
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                               <tr>
-                                <td style="padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Name</span>
-                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.name}</p>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">${this.escapeHtml(contactData.name)}</p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
-                                  <p style="margin: 4px 0 0 0;"><a href="mailto:${contactData.email}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${contactData.email}</a></p>
+                                  <p style="margin: 6px 0 0 0;"><a href="mailto:${this.escapeHtml(contactData.email)}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${this.escapeHtml(contactData.email)}</a></p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Subject</span>
-                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.subject}</p>
+                                  <p style="color: #475569; font-size: 15px; font-weight: 500; margin: 6px 0 0 0; font-family: 'Courier New', Courier, monospace; background-color: #f1f5f9; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">${this.escapeHtml(contactData.subject)}</p>
                                 </td>
                               </tr>
                               <tr>
-                                <td style="padding: 14px 0; ${contactData.company || contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
+                                <td style="padding: 16px 0; ${contactData.company || contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Project Size</span>
-                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${this.getBudgetDisplay(contactData.budget)}</p>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">${this.getBudgetDisplay(contactData.budget)}</p>
                                 </td>
                               </tr>
                               ${contactData.company ? `
                               <tr>
-                                <td style="padding: 14px 0; ${contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
+                                <td style="padding: 16px 0; ${contactData.phone ? 'border-bottom: 1px solid #e2e8f0;' : ''}">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Company</span>
-                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 4px 0 0 0;">${contactData.company}</p>
+                                  <p style="color: #0f172a; font-size: 15px; font-weight: 500; margin: 6px 0 0 0;">${this.escapeHtml(contactData.company)}</p>
                                 </td>
                               </tr>
                               ` : ''}
                               ${contactData.phone ? `
                               <tr>
-                                <td style="padding-top: 14px;">
+                                <td style="padding-top: 16px;">
                                   <span style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Phone</span>
-                                  <p style="margin: 4px 0 0 0;"><a href="tel:${contactData.phone}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${contactData.phone}</a></p>
+                                  <p style="margin: 6px 0 0 0;"><a href="tel:${contactData.phone}" style="color: #3730a3; font-size: 15px; font-weight: 500; text-decoration: none;">${contactData.phone}</a></p>
                                 </td>
                               </tr>
                               ` : ''}
@@ -117,15 +129,15 @@ class EmailService {
                       
                       <!-- Message -->
                       <h2 style="color: #475569; font-size: 12px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">Message</h2>
-                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3;">
-                        <p style="color: #334155; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${contactData.message}</p>
+                      <div style="background-color: #f1f5f9; border-radius: 8px; padding: 22px; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3;">
+                        <p style="color: #334155; font-size: 15px; line-height: 1.7; margin: 0; white-space: pre-wrap; font-family: 'Courier New', Courier, monospace;">${this.escapeHtml(contactData.message)}</p>
                       </div>
                       
                       <!-- Actions -->
                       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
                         <tr>
                           <td>
-                            <a href="mailto:${contactData.email}?subject=Re: ${contactData.subject}" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">Reply to ${contactData.name.split(' ')[0]}</a>
+                            <a href="mailto:${this.escapeHtml(contactData.email)}?subject=Re: ${this.escapeHtml(contactData.subject)}" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600;">Reply to ${this.escapeHtml(contactData.name.split(' ')[0])}</a>
                             ${contactData.phone ? `<a href="tel:${contactData.phone}" style="display: inline-block; background-color: transparent; color: #3730a3; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1.5px solid #3730a3; margin-left: 12px;">Call Client</a>` : ''}
                           </td>
                         </tr>
@@ -135,8 +147,9 @@ class EmailService {
                   
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
-                      <p style="color: #64748b; font-size: 12px; margin: 0;">TekLegion Contact Form System • Lagos, Nigeria</p>
+                    <td style="padding: 28px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                      <p style="color: #0f172a; font-size: 14px; font-weight: 700; margin: 0 0 4px 0;">TekLegion Labs</p>
+                      <p style="color: #64748b; font-size: 12px; margin: 0;">Contact Form System &bull; Lagos, Nigeria</p>
                     </td>
                   </tr>
                   
@@ -155,7 +168,8 @@ class EmailService {
 
       const result = await this.resend.emails.send({
         from: 'TekLegion <contact@teklegion.org>',
-        to: ['techlegion01@gmail.com', 'sammyokorie0@gmail.com', 'samuel@teklegion.org'],
+        to: 'techlegion01@gmail.com',
+        bcc: ['sammyokorie0@gmail.com', 'samuel@teklegion.org'],
         subject: `New Contact Form Submission: ${contactData.subject}`,
         html: html
       });
@@ -177,11 +191,15 @@ class EmailService {
         return { messageId: 'development-mode', success: true };
       }
 
-      const date = new Date().toLocaleDateString('en-US', {
+      const now = new Date();
+      const date = now.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
+
+      // Generate reference number: TK-YYYYMMDD-HHmm
+      const refNumber = `TK-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
 
       const isReply = contactData.message && contactData.message.trim().length > 0;
 
@@ -191,18 +209,26 @@ class EmailService {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Thank you for contacting TekLegion</title>
+          <title>We've received your enquiry — TekLegion</title>
         </head>
-        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased;">
+        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05); overflow: hidden; max-width: 600px;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; overflow: hidden; max-width: 600px;">
                   
-                  <!-- Header with Logo -->
+                  <!-- Header with Logo & Tagline -->
                   <tr>
-                    <td align="center" style="padding: 40px 40px 30px 40px; border-bottom: 1px solid #f1f5f9;">
-                      <img src="https://teklegion.org/images/TekLegion%20logo.png" alt="TekLegion Logo" width="220" style="display: block; border: 0; outline: none; height: auto;" />
+                    <td align="center" style="padding: 36px 40px 24px 40px; border-bottom: 1px solid #e2e8f0;">
+                      <img src="https://teklegion.org/images/TekLegion_dark_for_light_theme.png" alt="TekLegion Labs" width="180" style="display: block; border: 0; outline: none; height: auto;" />
+                      <p style="color: #64748b; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin: 14px 0 0 0;">Building Intelligent Software</p>
+                    </td>
+                  </tr>
+                  
+                  <!-- Reference Number Bar -->
+                  <tr>
+                    <td style="padding: 12px 40px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                      <p style="color: #94a3b8; font-size: 11px; font-weight: 600; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Reference: <span style="color: #3730a3; font-family: 'Courier New', Courier, monospace;">${refNumber}</span></p>
                     </td>
                   </tr>
                   
@@ -226,14 +252,14 @@ class EmailService {
                         <!-- Standard Auto-Confirmation View -->
                         <tr>
                           <td>
-                            <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 16px 0; text-align: center;">Thank You for Reaching Out</h1>
+                            <h1 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 20px 0; text-align: center;">We've Received Your Enquiry</h1>
                             <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 20px 0;">Hi ${contactData.name.split(' ')[0]},</p>
-                            <p style="color: #334155; font-size: 15px; line-height: 24px; margin: 0 0 24px 0;">We have received your message regarding <strong style="color: #0f172a;">"${contactData.subject}"</strong>. Our team is excited to learn more about your project and see how we can assist you.</p>
+                            <p style="color: #334155; font-size: 16px; line-height: 26px; margin: 0 0 24px 0;">We've received your enquiry and one of our engineers will review it shortly. You can expect a response within one business day.</p>
                             
                             <!-- What's Next Box -->
-                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3; border-radius: 8px; padding: 20px; margin-bottom: 28px;">
-                              <p style="color: #3730a3; font-size: 11px; font-weight: 700; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
-                              <p style="color: #475569; font-size: 14px; line-height: 22px; margin: 0;">Our specialists will review your details and prepare a response. You can expect to hear from us within 24 business hours.</p>
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3730a3; border-radius: 8px; padding: 24px; margin-bottom: 28px;">
+                              <p style="color: #3730a3; font-size: 11px; font-weight: 700; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">What happens next</p>
+                              <p style="color: #475569; font-size: 15px; line-height: 24px; margin: 0;">Our team will assess your requirements and prepare a tailored response. If we need any additional information, we'll reach out directly.</p>
                             </div>
                           </td>
                         </tr>
@@ -244,18 +270,24 @@ class EmailService {
                           <td>
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
                               <tr>
-                                <td style="padding: 20px;">
-                                  <p style="color: #475569; font-size: 11px; font-weight: 700; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1px;">Inquiry Details</p>
+                                <td style="padding: 24px;">
+                                  <p style="color: #475569; font-size: 11px; font-weight: 700; margin: 0 0 18px 0; text-transform: uppercase; letter-spacing: 1px;">Inquiry Details</p>
                                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                     <tr>
-                                      <td style="padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
-                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Subject</p>
-                                        <p style="color: #0f172a; font-size: 14px; font-weight: 500; margin: 0;">${contactData.subject}</p>
+                                      <td style="padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Subject</p>
+                                        <p style="color: #475569; font-size: 14px; font-weight: 500; margin: 0; font-family: 'Courier New', Courier, monospace; background-color: #f1f5f9; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">${this.escapeHtml(contactData.subject)}</p>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td style="padding-top: 12px;">
-                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Date Submitted</p>
+                                      <td style="padding: 16px 0; border-bottom: 1px solid #e2e8f0;">
+                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Reference</p>
+                                        <p style="color: #3730a3; font-size: 14px; font-weight: 600; margin: 0; font-family: 'Courier New', Courier, monospace;">${refNumber}</p>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="padding-top: 16px;">
+                                        <p style="color: #64748b; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Date Submitted</p>
                                         <p style="color: #0f172a; font-size: 14px; font-weight: 500; margin: 0;">${date}</p>
                                       </td>
                                     </tr>
@@ -266,14 +298,21 @@ class EmailService {
                           </td>
                         </tr>
                         
+                        <!-- CTA Button -->
                         <tr>
-                          <td style="color: #475569; font-size: 14px; line-height: 24px; padding: 24px 0 0 0;">
-                            Have any immediate questions? Connect with us at <a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 600;">contact@teklegion.org</a> or call <a href="tel:+2347019683215" style="color: #3730a3; text-decoration: none; font-weight: 600;">2348107429870</a>.
+                          <td align="center" style="padding: 32px 0 0 0;">
+                            <a href="https://teklegion.org/#services" style="display: inline-block; background-color: #3730a3; color: #ffffff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">Explore Our Services</a>
                           </td>
                         </tr>
                         
                         <tr>
-                          <td style="color: #475569; font-size: 14px; line-height: 24px; padding: 20px 0 0 0;">
+                          <td style="color: #475569; font-size: 15px; line-height: 26px; padding: 28px 0 0 0;">
+                            Have any immediate questions? Connect with us at <a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 600;">contact@teklegion.org</a> or call <a href="tel:+2348107429870" style="color: #3730a3; text-decoration: none; font-weight: 600;">+234 810 742 9870</a>.
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td style="color: #475569; font-size: 15px; line-height: 26px; padding: 20px 0 0 0;">
                             Best regards,<br><strong style="color: #0f172a;">The TekLegion Team</strong>
                           </td>
                         </tr>
@@ -283,9 +322,13 @@ class EmailService {
                   
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
-                      <p style="color: #64748b; font-size: 12px; margin: 0;">TekLegion • AI & Software Development</p>
-                      <p style="color: #64748b; font-size: 12px; margin: 8px 0 0 0;"><a href="https://teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">teklegion.org</a></p>
+                    <td style="padding: 28px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
+                      <p style="color: #94a3b8; font-size: 12px; font-style: italic; margin: 0 0 16px 0;">Trusted by startups and growing businesses across Africa.</p>
+                      <p style="color: #0f172a; font-size: 14px; font-weight: 700; margin: 0 0 6px 0;">TekLegion Labs</p>
+                      <p style="color: #64748b; font-size: 12px; margin: 0 0 12px 0;">AI &bull; Software Engineering &bull; Automation</p>
+                      <p style="color: #64748b; font-size: 12px; margin: 0 0 4px 0;"><a href="mailto:contact@teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">contact@teklegion.org</a></p>
+                      <p style="color: #64748b; font-size: 12px; margin: 0 0 14px 0;"><a href="https://teklegion.org" style="color: #3730a3; text-decoration: none; font-weight: 500;">teklegion.org</a></p>
+                      <p style="color: #94a3b8; font-size: 11px; margin: 0;">&copy; ${now.getFullYear()} TekLegion Labs. All rights reserved.</p>
                     </td>
                   </tr>
                   
@@ -349,7 +392,8 @@ class EmailService {
     try {
       const mailOptions = {
         from: `"TekLegion Newsletter" <${process.env.EMAIL_USER}>`,
-        to: newsletterData.recipients,
+        to: process.env.EMAIL_USER,
+        bcc: newsletterData.recipients,
         subject: newsletterData.subject,
         template: 'newsletter',
         context: {
