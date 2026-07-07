@@ -6,6 +6,9 @@ const API_BASE_URL = window.location.hostname === 'localhost'
     : 'https://teklegion.org';  // Production
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Ping database immediately on page load to ensure it's awake before any interactions
+    fetch(`${API_BASE_URL}/api/wakeup-db`).catch(console.error);
+
     // Initialize all components
     initNavigation();
     initScrollAnimations();
