@@ -177,6 +177,12 @@ function initContactForm() {
             // Handle focus and blur events
             input.addEventListener('focus', () => {
                 label.classList.add('active');
+                
+                // Unobtrusively wake up the database (runs only once per session)
+                if (!window.dbPinged) {
+                    window.dbPinged = true;
+                    fetch(`${API_BASE_URL}/api/wakeup-db`).catch(console.error);
+                }
             });
             
             input.addEventListener('blur', () => {

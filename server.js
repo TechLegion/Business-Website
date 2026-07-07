@@ -90,6 +90,18 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Endpoint to wake up the database before user finishes form
+app.get('/api/wakeup-db', async (req, res) => {
+  try {
+    const { sequelize } = require('./config/database');
+    await sequelize.authenticate();
+    res.json({ success: true, message: 'Database is awake' });
+  } catch (error) {
+    console.error('Database wakeup error:', error);
+    res.status(500).json({ success: false, message: 'Failed to wake database' });
+  }
+});
+
 // API root endpoint
 app.get('/api', (req, res) => {
   res.json({
@@ -223,6 +235,7 @@ app.use('/api/*', (req, res) => {
     availableEndpoints: [
       'GET /health',
       'GET /api',
+      'GET /api/wakeup-db',
       'POST /api/contact',
       'POST /api/analytics/track',
       'GET /api/admin/*'
